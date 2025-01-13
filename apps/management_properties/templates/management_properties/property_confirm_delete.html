@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Eliminar Propiedad{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_properties/css/properties.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="delete-confirmation">
+    <h1>Eliminar Propiedad</h1>
+    
+    <div class="confirmation-message">
+        <p>¿Está seguro que desea eliminar la siguiente propiedad?</p>
+        <div class="property-info">
+            <p><strong>Código:</strong> {{ object.property_code }}</p>
+            <p><strong>Dirección:</strong> {{ object.address }}</p>
+            <p><strong>Tipo:</strong> {{ object.get_property_type_display }}</p>
+        </div>
+        <p class="warning">Esta acción no se puede deshacer.</p>
+    </div>
+
+    <form method="post" class="delete-form">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn-delete">Confirmar Eliminación</button>
+            <a href="{% url 'properties:property_detail' object.property_code %}" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

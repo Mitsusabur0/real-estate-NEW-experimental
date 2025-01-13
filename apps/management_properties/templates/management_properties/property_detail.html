@@ -1,0 +1,139 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load property_filters %}
+
+{% block title %}{{ property.property_code }} - {{ property.address }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_properties/css/properties.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="detail-header">
+    <div class="detail-title">
+        <h1>{{ property.address }}</h1>
+        <span class="status-badge {{ property.status|lower }}">
+            {{ property.get_status_display }}
+        </span>
+    </div>
+    <div class="detail-actions">
+        <a href="{% url 'properties:property_update' property.property_code %}" class="btn-edit">Editar</a>
+        <a href="{% url 'properties:property_delete' property.property_code %}" class="btn-delete">Eliminar</a>
+        <a href="{% url 'properties:property_list' %}" class="btn-back">Volver</a>
+    </div>
+</div>
+
+<div class="property-detail">
+    <div class="detail-section main-info">
+        <h2>Información Principal</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="label">Dirección</span>
+                <span class="value">{{ property.address }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Código Interno</span>
+                <span class="value">{{ property.property_code }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Tipo de Propiedad</span>
+                <span class="value">{{ property.get_property_type_display }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Tipo de Oferta</span>
+                <span class="value">{{ property.get_offer_type_display }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Precio</span>
+                <span class="value price">${{ property.price|floatformat:0|clp }}</span>
+            </div>
+            {% if property.common_expenses %}
+            <div class="info-item">
+                <span class="label">Gastos Comunes</span>
+                <span class="value">${{ property.common_expenses|floatformat:0|clp }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="detail-section characteristics">
+        <h2>Características</h2>
+        <div class="characteristics-grid">
+            <div class="characteristic">
+                <span class="icon">🛏️</span>
+                <span class="label">Dormitorios</span>
+                <span class="value">{{ property.bedrooms }}</span>
+            </div>
+            <div class="characteristic">
+                <span class="icon">🚿</span>
+                <span class="label">Baños</span>
+                <span class="value">{{ property.bathrooms }}</span>
+            </div>
+            <div class="characteristic">
+                <span class="icon">📏</span>
+                <span class="label">Superficie</span>
+                <span class="value">{{ property.square_meters }}m²</span>
+            </div>
+            {% if property.floor_number %}
+            <div class="characteristic">
+                <span class="icon">🏢</span>
+                <span class="label">Piso</span>
+                <span class="value">{{ property.floor_number }}</span>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="features">
+            <div class="feature {% if property.has_parking %}active{% endif %}">
+                <span class="icon">🚗</span>
+                <span>Estacionamiento</span>
+            </div>
+            <div class="feature {% if property.has_storage_unit %}active{% endif %}">
+                <span class="icon">📦</span>
+                <span>Bodega</span>
+            </div>
+            <div class="feature {% if property.pets_allowed %}active{% endif %}">
+                <span class="icon">🐾</span>
+                <span>Mascotas Permitidas</span>
+            </div>
+        </div>
+    </div>
+
+    {% if property.amenities %}
+    <div class="detail-section">
+        <h2>Amenidades</h2>
+        <p class="content-text">{{ property.amenities }}</p>
+    </div>
+    {% endif %}
+
+    {% if property.requirements %}
+    <div class="detail-section">
+        <h2>Requisitos</h2>
+        <p class="content-text">{{ property.requirements }}</p>
+    </div>
+    {% endif %}
+
+    <div class="detail-section">
+        <h2>Descripción</h2>
+        <p class="content-text">{{ property.property_description }}</p>
+    </div>
+
+    {% if property.comments %}
+    <div class="detail-section">
+        <h2>Comentarios Internos</h2>
+        <p class="content-text">{{ property.comments }}</p>
+    </div>
+    {% endif %}
+
+    <div class="detail-section metadata">
+        <div class="metadata-item">
+            <span class="label">Fecha de Publicación</span>
+            <span class="value">{{ property.date_published }}</span>
+        </div>
+        <div class="metadata-item">
+            <span class="label">Última Actualización</span>
+            <span class="value">{{ property.updated_at }}</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

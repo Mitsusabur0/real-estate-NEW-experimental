@@ -1,0 +1,482 @@
+/* Property List Page */
+.property-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.btn-create {
+    background-color: #2ecc71;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+/* Filters */
+.filters {
+    margin-bottom: 2rem;
+}
+
+.filter-form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.btn-filter {
+    background-color: #3498db;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Property Grid */
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.property-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.property-status {
+    padding: 0.5rem;
+    color: white;
+    text-align: center;
+}
+
+.property-status.avl { background-color: #2ecc71; }
+.property-status.rsv { background-color: #f1c40f; }
+.property-status.rnt { background-color: #3498db; }
+.property-status.sld { background-color: #e74c3c; }
+
+.property-main {
+    padding: 1rem;
+}
+
+.property-main h2 {
+    margin-bottom: 0.5rem;
+}
+
+.property-type {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.property-address {
+    margin: 0.5rem 0;
+}
+
+.property-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.property-details {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-around;
+}
+
+.property-details span {
+    color: #666;
+}
+
+.property-actions {
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-view, .btn-edit {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    flex: 1;
+    text-align: center;
+}
+
+.btn-view {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-edit {
+    background-color: #f1c40f;
+    color: #2c3e50;
+}
+
+/* No Properties Message */
+.no-properties {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.page-link {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.current-page {
+    color: #666;
+}
+
+/* Property Detail Page */
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.detail-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.status-badge.avl { background-color: #2ecc71; }
+.status-badge.rsv { background-color: #f1c40f; }
+.status-badge.rnt { background-color: #3498db; }
+.status-badge.sld { background-color: #e74c3c; }
+
+.detail-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.btn-back {
+    background-color: #95a5a6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+/* Property Detail Sections */
+.property-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.detail-section {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.detail-section h2 {
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+/* Main Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.value {
+    font-size: 1.1rem;
+}
+
+.value.price {
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+/* Characteristics */
+.characteristics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.characteristic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.characteristic .icon {
+    font-size: 1.5rem;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    color: #666;
+}
+
+.feature.active {
+    background-color: #e1f5fe;
+    color: #0288d1;
+}
+
+.feature .icon {
+    font-size: 1.2rem;
+}
+
+/* Text Content */
+.content-text {
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-line;
+}
+
+/* Metadata */
+.metadata {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Property Form Styles */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.property-form {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.form-errors {
+    background-color: #fde8e8;
+    border: 1px solid #f8b4b4;
+    color: #c81e1e;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+
+.error-message {
+    margin: 0.5rem 0;
+}
+
+.form-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-section {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.form-section h2 {
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-field label {
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-field textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.field-errors {
+    color: #e74c3c;
+    font-size: 0.9rem;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-save {
+    background-color: #2ecc71;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background-color: #95a5a6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+}
+
+/* Delete Confirmation */
+.delete-confirmation {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.delete-confirmation h1 {
+    color: #e74c3c;
+    margin-bottom: 2rem;
+}
+
+.confirmation-message {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.property-info {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.property-info p {
+    margin: 0.5rem 0;
+}
+
+.warning {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-top: 1.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .detail-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .detail-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .metadata {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

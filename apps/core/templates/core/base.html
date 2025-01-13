@@ -1,36 +1,57 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base</title>
-    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <title>{% block title %}Gestor Inmobiliario{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/layout.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
-
-    <header>
-        <nav class="header-nav">
-            <ul class="nav-list">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'properties' %}">Properties</a></li>
-                <li><a href="{% url 'home' %}">Clients</a></li>
-                <li><a href="{% url 'home' %}">Administrations</a></li>
+    <header class="main-header">
+        <nav class="main-nav">
+            <div class="logo">Gestor Inmobiliario</div>
+            <ul class="nav-links">
+                <li><a href="{% url 'properties:property_list' %}" class="nav-link {% if request.resolver_match.namespace == 'properties' %}active{% endif %}">
+                    Propiedades
+                </a></li>
+                {% if user.is_authenticated %}
+                <li class="user-menu">
+                    <span>{{ user.username }}</span>
+                    <ul class="dropdown">
+                        {% if user.is_staff %}
+                        <li><a href="{% url 'admin:index' %}">Panel Admin</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'admin:logout' %}">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+                {% endif %}
             </ul>
         </nav>
     </header>
-    
-    
-    <main>
-        {% block content %}{% endblock content %}
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+            <button class="message-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
     </main>
 
-
-    <footer>
-        <h1>Footer</h1>
+    <footer class="main-footer">
+        <p>© {% now "Y" %} Gestor Inmobiliario</p>
     </footer>
 
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
