@@ -6,6 +6,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'management_properties/css/properties.css' %}">
+{% comment %} <link rel="stylesheet" href="{% static 'management_properties/css/properties_copy.css' %}"> {% endcomment %}
 {% endblock %}
 
 {% block content %}
@@ -16,32 +17,42 @@
 
 <div class="filters">
     <form method="get" class="filter-form">
-        <select name="status" class="filter-select">
-            <option value="">Estado</option>
-            {% for choice in view.model.PropertyStatus.choices %}
-            <option value="{{ choice.0 }}" {% if request.GET.status == choice.0 %}selected{% endif %}>
-                {{ choice.1 }}
-            </option>
-            {% endfor %}
-        </select>
+        <div class="filter-group">
+            <label value="">Estado</label>
+            <select name="status" class="filter-select">
+                <option value="">Todos</option>
+                {% for choice in view.model.PropertyStatus.choices %}
+                <option value="{{ choice.0 }}" {% if request.GET.status == choice.0 %}selected{% endif %}>
+                    {{ choice.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
         
-        <select name="type" class="filter-select">
-            <option value="">Tipo de Propiedad</option>
-            {% for choice in view.model.PropertyType.choices %}
-            <option value="{{ choice.0 }}" {% if request.GET.type == choice.0 %}selected{% endif %}>
-                {{ choice.1 }}
-            </option>
-            {% endfor %}
-        </select>
-        
-        <select name="offer" class="filter-select">
-            <option value="">Tipo de Oferta</option>
-            {% for choice in view.model.OfferType.choices %}
-            <option value="{{ choice.0 }}" {% if request.GET.offer == choice.0 %}selected{% endif %}>
-                {{ choice.1 }}
-            </option>
-            {% endfor %}
-        </select>
+        <div class="filter-group">
+            <label value="">Tipo Propiedad</label>
+            <select name="type" class="filter-select">
+            
+                <option value="">Todos</option>
+                {% for choice in view.model.PropertyType.choices %}
+                <option value="{{ choice.0 }}" {% if request.GET.type == choice.0 %}selected{% endif %}>
+                    {{ choice.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label value="">Tipo Oferta</label>
+            <select name="offer" class="filter-select">
+                <option value="">Todos</option>
+                {% for choice in view.model.OfferType.choices %}
+                <option value="{{ choice.0 }}" {% if request.GET.offer == choice.0 %}selected{% endif %}>
+                    {{ choice.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
         
         <button type="submit" class="btn-filter">Filtrar</button>
     </form>
@@ -50,9 +61,9 @@
 <div class="property-grid">
     {% for property in properties %}
     <div class="property-card">
-        <div class="property-status {{ property.status|lower }}">{{ property.get_status_display }}</div>
         <div class="property-main">
             <h2 class="property-address">{{ property.address }}</h2>
+            <p class="property-status-text {{ property.status|lower }}">{{ property.get_status_display }}</p>
             <p class="property-type">{{ property.get_property_type_display }} - {{ property.get_offer_type_display }}</p>
             <p class="property-code">{{ property.property_code }}</p>            
             <p class="property-price">
