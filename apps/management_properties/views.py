@@ -24,7 +24,7 @@ class PropertyListView(LoginRequiredMixin, ListView):
         if offer_type:
             queryset = queryset.filter(offer_type=offer_type)
             
-        return queryset.order_by('status')
+        return queryset.order_by('status', '-created_at')
 
 class PropertyDetailView(LoginRequiredMixin, DetailView):
     model = Property
