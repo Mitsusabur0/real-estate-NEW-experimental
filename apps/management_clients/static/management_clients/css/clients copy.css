@@ -1,8 +1,7 @@
 /* apps/management_clients/static/management_clients/css/clients.css */
 
 /* Client List Page Header */
-.client-header,
-.form-header {
+.client-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -132,158 +131,30 @@
     font-size: 0.8rem;
 }
 
-/* Client Form Styles */
-.client-form-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.form-errors {
-    background-color: #fde8e8;
-    border: 1px solid #f8b4b4;
-    color: #c81e1e;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    border-radius: 4px;
-}
-
-.error-message {
-    margin: 0.5rem 0;
-}
-
-.form-section {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.form-section h2 {
-    margin-bottom: 1.5rem;
-    color: #2c3e50;
-    font-size: 1.2rem;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-}
-
-.form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-field label {
-    color: #2c3e50;
-    font-size: 0.9rem;
-}
-
-.form-field input,
-.form-field select {
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.field-errors {
-    color: #e74c3c;
-    font-size: 0.9rem;
-}
-
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-}
-
-.form-field input[type="checkbox"] {
-    width: 1.2rem;
-    height: 1.2rem;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: flex-start;
-    gap: 1rem;
-    margin: 2rem 0;
-}
-
-.btn-save {
-    background-color: #3498db;
-    color: white;
-    padding: 0.75rem 1.5rem;
-}
-
-.btn-cancel {
-    background-color: #95a5a6;
-    color: white;
-    padding: 0.75rem 1.5rem;
-}
-
-/* Delete Confirmation */
-.delete-confirmation {
-    max-width: 600px;
-    margin: 0 auto;
+/* Empty State */
+.no-clients {
     text-align: center;
-}
-
-.delete-confirmation h1 {
-    color: #e74c3c;
-    margin-bottom: 2rem;
-}
-
-.confirmation-message {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
     padding: 2rem;
-    margin-bottom: 2rem;
+    color: #666;
 }
 
-.client-info {
-    margin: 1.5rem 0;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-radius: 4px;
-}
-
-.client-info h2 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-}
-
-.client-info p {
-    margin: 0.5rem 0;
-}
-
-.warning {
-    color: #e74c3c;
-    font-weight: bold;
-    margin-top: 1.5rem;
-}
-
-.confirmation-actions {
+/* Pagination */
+.pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 1rem;
     margin-top: 2rem;
 }
 
-.btn-delete {
-    background-color: #e74c3c;
-    color: white;
+.page-link {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.current-page {
+    color: #666;
 }
 
 /* Responsive Adjustments */
@@ -307,17 +178,5 @@
     
     .client-actions {
         flex-direction: column;
-    }
-    
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .confirmation-actions {
-        flex-direction: column;
-    }
-    
-    .btn {
-        width: 100%;
     }
 }

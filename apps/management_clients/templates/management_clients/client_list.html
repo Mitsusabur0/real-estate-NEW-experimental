@@ -1,5 +1,3 @@
-# apps/management_clients/templates/management_clients/client_list.html
-
 {% extends 'core/base.html' %}
 {% load static %}
 
@@ -66,7 +64,7 @@
                     </span>
                 </td>
                 <td class="client-actions">
-                    <a href="{% url 'clients:client_detail' client.id %}" class="btn btn-view">Ver</a>
+                    {% comment %} <a href="{% url 'clients:client_detail' client.id %}" class="btn btn-view">Ver</a> {% endcomment %}
                     <a href="{% url 'clients:client_update' client.id %}" class="btn btn-edit">Editar</a>
                 </td>
             </tr>

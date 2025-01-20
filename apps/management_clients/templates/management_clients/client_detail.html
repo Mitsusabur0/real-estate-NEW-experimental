@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}{{ client.name }}{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_clients/css/clients.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="detail-header">
+    <div class="detail-title">
+        <h1>{{ client.name }}</h1>
+        <span class="status-badge {% if client.is_active %}active{% else  %}inactive{% endif %}" ></span>
+        {% if client.is_active %}Activo{% else %}Inactivo{% endif %}
+
+    </div>
+
+
+</div>
+
+{% endblock content %}
