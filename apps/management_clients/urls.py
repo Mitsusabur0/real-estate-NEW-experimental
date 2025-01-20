@@ -12,9 +12,12 @@ urlpatterns = [
     # Create view - add new client
     path('create/', views.ClientCreateView.as_view(), name='client_create'),
     
+    # Detail view - show single client details
+    path('<int:pk>/', views.ClientDetailView.as_view(), name='client_detail'),
+    
     # Update view - edit existing client
     path('<int:pk>/edit/', views.ClientUpdateView.as_view(), name='client_update'),
     
     # Delete view - remove client
     path('<int:pk>/delete/', views.ClientDeleteView.as_view(), name='client_delete'),
-]
+]                   

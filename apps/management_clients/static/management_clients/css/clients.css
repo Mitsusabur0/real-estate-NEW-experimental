@@ -80,6 +80,10 @@
     color: #666;
 }
 
+.client-name {
+    font-weight: 700;
+}
+
 /* Status Badge */
 .status-badge {
     display: inline-block;
@@ -125,8 +129,7 @@
     color: inherit;
 }
 
-.btn-view,
-.btn-edit {
+.client-actions .btn-edit, .client-actions .btn-view {
     background-color: #e0e0e0;
     padding: 0.25rem 0.5rem;
     font-size: 0.8rem;
@@ -319,5 +322,174 @@
     
     .btn {
         width: 100%;
+    }
+}
+
+
+/* Client Detail Page */
+.client-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.detail-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.detail-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Properties List in Detail */
+.properties-list {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+.properties-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.properties-table th,
+.properties-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.properties-table th {
+    background-color: #f8f9fa;
+    font-weight: 500;
+    color: #666;
+}
+
+.property-row {
+    transition: background-color 0.2s;
+}
+
+.property-row:hover {
+    background-color: #f8f9fa;
+}
+
+.property-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Information Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-item .label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.info-item .value {
+    font-size: 1.1rem;
+}
+
+/* Detail Sections */
+.detail-section {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.detail-section h2 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+/* No Properties Message */
+.no-properties {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+/* Metadata Section */
+.metadata {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.metadata-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Buttons */
+.btn-edit {
+    background-color: lightgrey;
+    color: #303030;
+}
+
+.btn-back {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .detail-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .metadata {
+        flex-direction: column;
+    }
+    
+    .property-actions {
+        flex-direction: column;
+    }
+    
+    .properties-table {
+        font-size: 0.9rem;
     }
 }

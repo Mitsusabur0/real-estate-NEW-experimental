@@ -94,4 +94,4 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         # Get the clients properties ordered by address
         context['properties'] = self.object.properties.all().order_by('address')
-        return context
+        return context          
