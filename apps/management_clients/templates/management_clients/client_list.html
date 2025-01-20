@@ -1,0 +1,101 @@
+# apps/management_clients/templates/management_clients/client_list.html
+
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Propietarios{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_clients/css/clients.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="client-header">
+    <h1>Propietarios</h1>
+    <a href="{% url 'clients:client_create' %}" class="btn btn-create">Nuevo Propietario</a>
+</div>
+
+<div class="filters">
+    <form method="get" class="filter-form">
+        <div class="filter-group">
+            <label>Estado</label>
+            <select name="status" class="filter-select">
+                <option value="">Todos</option>
+                <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>Activos</option>
+                <option value="inactive" {% if request.GET.status == 'inactive' %}selected{% endif %}>Inactivos</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Buscar</label>
+            <input type="text" name="search" class="filter-input" 
+                   value="{{ request.GET.search|default:'' }}" 
+                   placeholder="Nombre o email...">
+        </div>
+        
+        <button type="submit" class="btn btn-filter">Filtrar</button>
+    </form>
+</div>
+
+<div class="client-list">
+    <table class="client-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Propiedades</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr class="client-row {% if not client.is_active %}inactive{% endif %}">
+                <td class="client-name">{{ client.name }}</td>
+                <td class="client-email">{{ client.email }}</td>
+                <td class="client-phone">{{ client.phone }}</td>
+                <td class="client-properties">
+                    {% with properties=client.property_set.all %}
+                    {{ properties|length }} propiedad{{ properties|length|pluralize:"es" }}
+                    {% endwith %}
+                </td>
+                <td class="client-status">
+                    <span class="status-badge {% if client.is_active %}active{% else %}inactive{% endif %}">
+                        {% if client.is_active %}Activo{% else %}Inactivo{% endif %}
+                    </span>
+                </td>
+                <td class="client-actions">
+                    <a href="{% url 'clients:client_detail' client.id %}" class="btn btn-view">Ver</a>
+                    <a href="{% url 'clients:client_update' client.id %}" class="btn btn-edit">Editar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="no-clients">
+                    No hay propietarios que coincidan con los filtros seleccionados.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" 
+       class="page-link">&laquo; Anterior</a>
+    {% endif %}
+    
+    <span class="current-page">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+    
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" 
+       class="page-link">Siguiente &raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

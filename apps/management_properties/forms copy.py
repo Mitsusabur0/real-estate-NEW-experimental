@@ -1,5 +1,3 @@
-# REAL_ESTATE_MANAGER/apps/management_properties/forms.py
-
 from django import forms
 from .models import Property
 
@@ -8,7 +6,6 @@ class PropertyForm(forms.ModelForm):
         model = Property
         fields = [
             'address', 'property_type', 'offer_type', 'status',
-            'current_owner',  # Added current_owner field
             'price', 'common_expenses', 'square_meters',
             'bedrooms', 'bathrooms', 'has_parking',
             'has_storage_unit', 'floor_number', 'amenities',
@@ -26,8 +23,7 @@ class PropertyForm(forms.ModelForm):
             'price': 'Enter the price in Chilean Pesos (CLP)',
             'common_expenses': 'Monthly maintenance fees, if applicable',
             'requirements': 'List any specific requirements for potential buyers/tenants',
-            'floor_number': 'Only for apartments or offices',
-            'current_owner': 'Select the current owner of the property'  # Added help text
+            'floor_number': 'Only for apartments or offices'
         }
 
     def clean(self):
@@ -59,16 +55,3 @@ class PropertyForm(forms.ModelForm):
                 'Los precios de arriendo superiores a $5.000.000 necesitan verificación. Por favor, revise el monto.'
             )
         return price
-
-    def save(self, commit=True):
-        property_instance = super().save(commit=False)
-        old_owner = None
-        if self.instance.pk:  # If editing existing property
-            old_owner = Property.objects.get(pk=self.instance.pk).current_owner
-        
-        if commit:
-            property_instance.save()
-            if old_owner != property_instance.current_owner:
-                property_instance.change_owner(property_instance.current_owner)
-        
-        return property_instance

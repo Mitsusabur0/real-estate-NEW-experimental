@@ -1,5 +1,3 @@
-# REAL_ESTATE_MANAGER/apps/management_properties/admin.py
-
 from django.contrib import admin
 from .models import Property
 
@@ -14,8 +12,7 @@ class PropertyAdmin(admin.ModelAdmin):
         'status',
         'price',
         'square_meters',
-        'date_published',
-        'current_owner'  # Added current_owner to list display
+        'date_published'
     )
     
     list_filter = (
@@ -38,8 +35,7 @@ class PropertyAdmin(admin.ModelAdmin):
                 'property_code',
                 'property_type',
                 'offer_type',
-                'status',
-                'current_owner'  # Added current_owner field
+                'status'
             )
         }),
         ('Location Details', {
@@ -82,20 +78,3 @@ class PropertyAdmin(admin.ModelAdmin):
 
     # Ordering
     ordering = ('-date_published', 'property_code')
-
-    def save_model(self, request, obj, form, change):
-        if change:  # If this is an edit, not a new property
-            old_obj = Property.objects.get(pk=obj.pk)
-            if old_obj.current_owner != obj.current_owner:
-                # Owner has changed, use our method
-                super().save_model(request, obj, form, change)
-                obj.change_owner(obj.current_owner)
-            else:
-                # No owner change, normal save
-                super().save_model(request, obj, form, change)
-        else:
-            # New property
-            super().save_model(request, obj, form, change)
-            if obj.current_owner:
-                # If new property has an owner, create initial ownership record
-                obj.change_owner(obj.current_owner)

@@ -18,9 +18,6 @@
                 <li><a href="{% url 'properties:property_list' %}" class="nav-link {% if request.resolver_match.namespace == 'properties' %}active{% endif %}">
                     Propiedades
                 </a></li>
-                <li><a href="{% url 'clients:client_list' %}" class="nav-link {% if request.resolver_match.namespace == 'clients' %}active{% endif %}">
-                    Propietarios
-                </a></li>
                 {% if user.is_authenticated %}
                 <li class="user-menu">
                     <span>{{ user.username }}</span>
