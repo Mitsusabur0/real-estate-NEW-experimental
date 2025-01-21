@@ -41,6 +41,17 @@
                     <div class="field-errors">{{ form.address.errors }}</div>
                     {% endif %}
                 </div>
+
+                <div class="form-field">
+                    <label for="{{ form.current_owner.id_for_label}}">Propietario</label>
+                    {{ form.current_owner }}
+                    {% if form.current_owner.help_text %}
+                    <small class="help-text">{{ form.current_owner.help_text }}</small>
+                    {% endif %}
+                    {% if form.current_owner.errors %}
+                        <div class="field-errors">{{ form.current_owner.errors }}</div>
+                    {% endif %}
+                </div>
                 
                 <div class="form-field">
                     <label for="{{ form.property_type.id_for_label }}">Tipo de Propiedad</label>

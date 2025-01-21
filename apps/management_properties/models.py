@@ -110,13 +110,14 @@ class Property(models.Model):
             if current_ownership:
                 current_ownership.end_date = change_date
                 current_ownership.save()
-        
-        # Create new ownership record
-        PropertyOwnership.objects.create(
-            property=self,
-            owner=new_owner,
-            start_date=change_date
-        )
+                
+        # Only create new ownership record if there's a new owner
+        if new_owner is not None:
+            PropertyOwnership.objects.create(
+                property=self,
+                owner=new_owner,
+                start_date=change_date
+            )
         
         # Update current owner
         self.current_owner = new_owner
