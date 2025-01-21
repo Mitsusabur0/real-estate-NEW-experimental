@@ -27,9 +27,123 @@
     <!-- Main information table-->
      <div class="detail-section">
         <table class="detail-table">
-            
+            <tbody>
+                <!--Property information-->
+                <tr class="section-header">
+                    <th colspan="2">Información de la propiedad</th>
+                </tr>
+                <tr>
+                    <td class="table-label">Dirección</td>
+                    <td>{{ property.address }}</td>
+                </tr>
+                <tr>
+                    <td class="table-label">Código interno</td>
+                    <td>{{ property.property_code }}</td>
+                </tr>
+                <tr>
+                    <td class="table-label">Tipo de propiedad</td>
+                    <td>{{ property.get_property_type_display }}</td>
+                </tr>
+                <tr>
+                    <td class="table-label">Tipo de oferta</td>
+                    <td>{{ property.get_offer_type_display }}</td>
+                </tr>
+                <tr>
+                    <td class="table-label">Estado</td>
+                    <td>{{ property.get_status_display }}</td>
+                </tr>
+                <tr>
+                    <td class="table-label">Dueño</td>
+                    <td>{{ property.current_owner }}</td>
+                </tr>
+
+                <!--Financial information-->
+                <tr class="section-header">
+                    <th colspan="2">Información financiera</th>
+                </tr>
+                <tr>
+                    <td class="table-label">Precio</td>
+                    <td class="price-value">${{ property.price|floatformat:0|clp }}</td>
+                </tr>
+                {% if property.common_expenses %}
+                <tr>
+                    <td class="table-label">Gastos comunes</td>
+                    <td>${{ property.common_expenses|floatformat:0|clp }}</td>
+                </tr>
+                {% endif %}
+
+                <!--Physical characteristics-->
+                <tr class="section-header">
+                    <th colspan="2">Características</th>
+                </tr>
+                <tr>
+                    <td class="table-label">Dormitorios</td>
+                    <td>{{ property.bedrooms }}</td>
+                </tr>
+                <tr>
+                    <td class="table-label">Baños</td>
+                    <td>{{ property.bathrooms }}</td>
+                </tr>
+                <tr>
+                    <td class="table-label">Superficie</td>
+                    <td>{{ property.square_meters }}m²</td>
+                </tr>
+                
+                {% if property.floor_number %}
+                <tr>
+                    <td class="table-label">Piso</td>
+                    <td>{{ property.floor_number }}</td>
+                </tr>
+                {% endif %}
+            </tbody>
         </table>
+
+        <div class="additional-features">
+            <h3>Características adicionales</h3>
+            <div class="features-list">
+                <div class="feature-item">
+                    <span class="feature-label">Estacionamiento:</span>
+                    <span class="feature-value">{% if property.has_parking %}Sí{% else %}No{% endif %}</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-label">Bodega:</span>
+                    <span class="feature-value">{% if property.has_storage_unit %}Sí{% else %}No{% endif %}</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-label">Mascotas:</span>
+                    <span class="feature-value">{% if property.pets_allowed %}Sí{% else %}No{% endif %}</span>
+                </div>
+            </div>
+        </div>
      </div>
+     
+     <div class="detail-section">
+        <h2>Descripción</h2>
+        <p class="content-text">{{ property.property_description }}</p>
+     </div>
+     
+     {% if property.amenities %}
+     <div class="detail-section">
+        <h2>Amenidades</h2>
+        <p class="content-text">{{ property.amenities }}</p>
+     </div>
+     {% endif %}
+     
+     {% if property.requirements %}
+     <div class="detail-section">
+        <h2>Requisitos</h2>
+        <p class="content-text">{{ property.requirements }}</p>
+     </div>
+     {% endif %}
+
+     {% if property.comments %}
+     <div class="detail-section">
+        <h2>Comentarios Internos</h2>
+        <p class="content-text">{{ property.comments }}</p>
+     </div>
+     {% endif %}
+
+
 </div>
 
 {% endblock content %}
