@@ -1,0 +1,110 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load property_filters %}
+
+{% block title %}Propiedades{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_properties/css/properties.css' %}">
+{% comment %} <link rel="stylesheet" href="{% static 'management_properties/css/properties_copy.css' %}"> {% endcomment %}
+{% endblock %}
+
+{% block content %}
+<div class="property-header">
+    <h1>Propiedades</h1>
+    <a href="{% url 'properties:property_create' %}" class="btn btn-create">Nueva Propiedad</a>
+</div>
+
+<div class="filters">
+    <form method="get" class="filter-form">
+        <div class="filter-group">
+            <label value="">Estado</label>
+            <select name="status" class="filter-select">
+                <option value="">Todos</option>
+                {% for choice in view.model.PropertyStatus.choices %}
+                <option value="{{ choice.0 }}" {% if request.GET.status == choice.0 %}selected{% endif %}>
+                    {{ choice.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label value="">Tipo Propiedad</label>
+            <select name="type" class="filter-select">
+            
+                <option value="">Todos</option>
+                {% for choice in view.model.PropertyType.choices %}
+                <option value="{{ choice.0 }}" {% if request.GET.type == choice.0 %}selected{% endif %}>
+                    {{ choice.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label value="">Tipo Oferta</label>
+            <select name="offer" class="filter-select">
+                <option value="">Todos</option>
+                {% for choice in view.model.OfferType.choices %}
+                <option value="{{ choice.0 }}" {% if request.GET.offer == choice.0 %}selected{% endif %}>
+                    {{ choice.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-filter">Filtrar</button>
+    </form>
+</div>
+
+<div class="property-grid">
+    {% for property in properties %}
+    <div class="property-card">
+        <div class="property-main">
+            <h2 class="property-address">{{ property.address }}</h2>
+            <p class="property-status-text {{ property.status|lower }}">{{ property.get_status_display }}</p>
+            <p class="property-type">{{ property.get_offer_type_display }}</p>
+            <p class="property-type">{{ property.get_property_type_display }}</p>
+            {% comment %} <p class="property-code">{{ property.property_code }}</p>         {% endcomment %}
+            <p class="property-price">
+                {% if property.offer_type == 'RENT' %}
+                    ${{ property.price|floatformat:0|clp }} 
+                {% else %}
+                    ${{ property.price|floatformat:0|clp }}
+                {% endif %}
+            </p>
+        </div>
+        <div class="property-details">
+            <span>{{ property.bedrooms }} hab</span>
+            <span>{{ property.bathrooms }} baños</span>
+            <span>{{ property.square_meters }}m²</span>
+        </div>
+        <div class="property-actions">
+            <a href="{% url 'properties:property_detail' property.property_code %}" class="btn btn-view">Ver</a>
+            <a href="{% url 'properties:property_update' property.property_code %}" class="btn btn-edit">Editar</a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="no-properties">
+        <p>No hay propiedades que coincidan con los filtros seleccionados.</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; Anterior</a>
+    {% endif %}
+    
+    <span class="current-page">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+    
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="page-link">Siguiente &raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
