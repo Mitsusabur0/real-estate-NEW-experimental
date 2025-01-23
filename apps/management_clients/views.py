@@ -8,6 +8,32 @@ from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
 from .models import Client
 from .forms import ClientForm
+from django.db.models import Count, Q
+
+# class ClientListView(LoginRequiredMixin, ListView):
+#     model = Client
+#     template_name = 'management_clients/client_list.html'
+#     context_object_name = 'clients'
+#     paginate_by = 10
+    
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+        
+#         # Add filtering by active status
+#         status = self.request.GET.get('status')
+#         if status == 'active':
+#             queryset = queryset.filter(is_active=True)
+#         elif status == 'inactive':
+#             queryset = queryset.filter(is_active=False)
+            
+#         # Add search functionality
+#         search = self.request.GET.get('search')
+#         if search:
+#             queryset = queryset.filter(name__icontains=search) | \
+#                       queryset.filter(email__icontains=search)
+        
+#         return queryset.order_by('-is_active', 'name')
+
 
 class ClientListView(LoginRequiredMixin, ListView):
     model = Client
@@ -16,20 +42,24 @@ class ClientListView(LoginRequiredMixin, ListView):
     paginate_by = 10
     
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().annotate(
+            current_properties_count=Count('properties')
+        )
         
-        # Add filtering by active status
+        
+        
         status = self.request.GET.get('status')
         if status == 'active':
             queryset = queryset.filter(is_active=True)
         elif status == 'inactive':
             queryset = queryset.filter(is_active=False)
             
-        # Add search functionality
         search = self.request.GET.get('search')
         if search:
-            queryset = queryset.filter(name__icontains=search) | \
-                      queryset.filter(email__icontains=search)
+            queryset = queryset.filter(
+                Q(name__icontains=search) | 
+                Q(email__icontains=search)
+            )
         
         return queryset.order_by('-is_active', 'name')
 

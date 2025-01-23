@@ -54,9 +54,7 @@
                 <td class="client-email">{{ client.email }}</td>
                 <td class="client-phone">{{ client.phone }}</td>
                 <td class="client-properties">
-                    {% with properties=client.property_set.all %}
-                    {{ properties|length }} propiedad{{ properties|length|pluralize:"es" }}
-                    {% endwith %}
+                    {{ client.current_properties_count }} propiedad{{ client.current_properties_count|pluralize:"es" }}
                 </td>
                 <td class="client-status">
                     <span class="status-badge {% if client.is_active %}active{% else %}inactive{% endif %}">
