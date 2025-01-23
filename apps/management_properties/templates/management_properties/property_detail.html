@@ -18,8 +18,8 @@
     </div>
 
     <div class="detail-actions">
-        <a href="{% url 'properties:property_update' property.property_code %}" class="btn-edit">Editar</a>
-        <a href="{% url 'properties:property_list' %}" class="btn-back">Volver</a>
+        <a href="{% url 'properties:property_list' %}" class="btn btn-back">Volver</a>
+        <a href="{% url 'properties:property_update' property.property_code %}" class="btn btn-edit">Editar</a>
     </div>
 </div>
 
@@ -117,27 +117,27 @@
         </div>
      </div>
      
-     <div class="detail-section">
+     <div class="detail-section pad">
         <h2>Descripción</h2>
         <p class="content-text">{{ property.property_description }}</p>
      </div>
      
      {% if property.amenities %}
-     <div class="detail-section">
+     <div class="detail-section pad">
         <h2>Amenidades</h2>
         <p class="content-text">{{ property.amenities }}</p>
      </div>
      {% endif %}
      
      {% if property.requirements %}
-     <div class="detail-section">
+     <div class="detail-section pad">
         <h2>Requisitos</h2>
         <p class="content-text">{{ property.requirements }}</p>
      </div>
      {% endif %}
 
      {% if property.comments %}
-     <div class="detail-section">
+     <div class="detail-section pad">
         <h2>Comentarios Internos</h2>
         <p class="content-text">{{ property.comments }}</p>
      </div>

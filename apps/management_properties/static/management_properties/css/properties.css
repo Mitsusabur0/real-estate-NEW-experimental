@@ -1,8 +1,9 @@
 /* Property List Page */
 .property-header {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
     margin-bottom: 2rem;
     gap: 1rem;
     flex-wrap: wrap;
@@ -11,16 +12,23 @@
 .btn {
     font-weight: 500;
     border: none;
-    /* border: 1px solid lightgrey */
+    background-color: #3498db;
+    background-color: #95a5a6;
+    color: whitesmoke;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    text-align: center;
 }
 
 
 .btn-create {
-    background-color: #3498db;
+    background-color: #69ac85;
+    background-color: #3EB489;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     text-align: center;
+    width: fit-content;
 }
 
 /* Filters */
@@ -48,12 +56,11 @@
 }
 
 .btn-filter {
-    background-color: rgb(224, 224, 224);
-    color: inherit;
     border-radius: 4px; 
     cursor: pointer;
     padding: 0 40px;
     font-size: 1rem;
+    min-height: 2rem;
 }
 
 /* Property Grid */
@@ -137,13 +144,13 @@
     font-size: 0.9rem;
 }
 
-/* .property-address {
-    margin: 0.5rem 0;
-} */
+.property-address {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
 
 .property-price {
     font-size: 1.2rem;
-    font-weight: bold;
     color: #2c3e50;
 }
 
@@ -171,22 +178,16 @@
 }
 
 .btn-view, .btn-edit {
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    /* flex: 1; */
-    text-align: center;
+    flex: 1;
 }
 
 .btn-view {
-    background-color: #3498db;
-    background-color: rgb(224, 224, 224);
+    /* background-color: inherit; */
 
 }
 
 .btn-edit {
-    background-color: #f1c40f;
-    background-color: rgb(224, 224, 224);
-
+    /* background-color: #9E8FB2; */
 }
 
 /* No Properties Message */
@@ -232,20 +233,21 @@
 }
 
 .status-badge {
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    color: white;
+    /* color: white; */
     font-size: 0.9rem;
 }
 
-.status-badge.avl { background-color: #2ecc71; }
-.status-badge.rsv { background-color: #f1c40f; }
-.status-badge.rnt { background-color: #3498db; }
-.status-badge.sld { background-color: #e74c3c; }
+/* .status-badge.avl { background-color: #69ac85; }
+.status-badge.rsv { background-color: #b6a872; }
+.status-badge.rnt { background-color: #698fa8; }
+.status-badge.sld { background-color: #c2827b; } */
 
 .detail-actions {
     display: flex;
     gap: 1rem;
+    align-items: center;
 }
 
 .btn-delete {
@@ -256,10 +258,7 @@
 }
 
 .btn-back {
-    background-color: #95a5a6;
-    color: white;
     padding: 0.5rem 1rem;
-    border-radius: 4px;
 }
 
 /* Property Detail Sections */
@@ -272,8 +271,11 @@
 .detail-section {
     background-color: white;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1.5rem;
+    border-radius: 4px;
+}
+
+.detail-section.pad {
+    padding: 2rem;
 }
 
 .detail-section h2 {
@@ -281,19 +283,6 @@
     color: #2c3e50;
     font-size: 1.2rem;
 }
-
-/* Main Info Grid */
-/* .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-} */
-
-/* .info-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-} */
 
 .label {
     color: #666;
@@ -537,11 +526,13 @@
 .detail-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
+    /* border: 1px solid grey; */
 }
 
 .detail-table tr {
     border-bottom: 1px solid #eee;
+    /* border: 1px solid black; */
 }
 
 .detail-table td {
@@ -550,7 +541,6 @@
 
 .detail-table .table-label {
     width: 200px;
-    color: #666;
     font-weight: 500;
     background-color: #f8f9fa;
 }
@@ -573,9 +563,10 @@
 
 /* Property detail - Additional feature styles */
 .additional-features {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     padding-top: 1rem;
     border-top: 1px solid #eee;
+    padding: 1rem;
 }
 
 .additional-features h3 {
@@ -627,16 +618,4 @@
     }
 }
 
-
-
-/* Property List Styles */
-
-.property-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
 

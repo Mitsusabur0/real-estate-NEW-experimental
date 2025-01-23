@@ -1,7 +1,8 @@
 :root {
     --text-color: #303030;
-    --background-white: #f5f5f5;
+    --background-white: #f2f2f2;
     --background-dark: lightgrey;
+    --background-brand-color: hsl(145, 29%, 98%);
 
 }
 
@@ -13,12 +14,13 @@
 }
 
 body {
+    background-color: var(--background-white);
     font-family: Arial, sans-serif;
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    color: var(--text-color)
+    color: var(--text-color);
 }
 
 button {
