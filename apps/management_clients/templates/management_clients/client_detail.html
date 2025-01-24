@@ -11,13 +11,10 @@
 <div class="detail-header">
     <div class="detail-title">
         <h1>{{ client.name }}</h1>
-        <span class="status-badge {% if client.is_active %}active{% else  %}inactive{% endif %}">
-            {% if client.is_active %}Activo{% else %}Inactivo{% endif %}
-        </span>
     </div>
     <div class="detail-actions">
-        <a href="{% url 'clients:client_update' client.id %}" class="btn btn-edit">Editar</a>
         <a href="{% url 'clients:client_list' %}" class="btn btn-back">Volver</a>
+        <a href="{% url 'clients:client_update' client.id %}" class="btn btn-edit">Editar</a>
     </div>
 </div>
 
