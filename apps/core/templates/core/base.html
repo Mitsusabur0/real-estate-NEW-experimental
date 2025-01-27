@@ -13,7 +13,9 @@
 <body>
     <header class="main-header">
         <nav class="main-nav">
-            <div class="logo">Gestor Inmobiliario</div>
+            <a href="{% url 'core:home' %}">
+                <div class="logo">Gestor Inmobiliario</div>
+            </a>
             <ul class="nav-links">
                 <li><a href="{% url 'properties:property_list' %}" class="nav-link {% if request.resolver_match.namespace == 'properties' %}active{% endif %}">
                     Propiedades
