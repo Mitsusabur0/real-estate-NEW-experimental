@@ -4,12 +4,16 @@ from apps.management_properties.models import Property
 
 class Client(models.Model):
     """
-    Represents a property owner (client) in the real estate system.
-    Stores basic contact information.
+    Represents a client in the real estate system.
+    Can be either a property owner or a tenant.
     """
+    class ClientType(models.TextChoices):
+        OWNER = 'OWNER', 'Property Owner'
+        TENANT = 'TENANT', 'Tenant'
+
     name = models.CharField(
         max_length=200,
-        help_text="Full name of the property owner"
+        help_text="Full name of the client"
     )
     email = models.EmailField(
         validators=[EmailValidator()],
@@ -21,24 +25,44 @@ class Client(models.Model):
     )
     is_active = models.BooleanField(
         default=True,
-        help_text="Indicates if the client currently has any properties listed"
+        help_text="Indicates if the client is currently active in the system"
+    )
+    client_type = models.CharField(
+        max_length=6,
+        choices=ClientType.choices,
+        default=ClientType.OWNER,
+        help_text="Type of client (property owner or tenant)"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} ({'Active' if self.is_active else 'Inactive'})"
+        return f"{self.name} ({self.get_client_type_display()}) - {'Active' if self.is_active else 'Inactive'}"
 
     class Meta:
         ordering = ['name']
-        verbose_name = "Property Owner"
-        verbose_name_plural = "Property Owners"
+        verbose_name = "Client"
+        verbose_name_plural = "Clients"
+        # Add index for client_type for better query performance
+        indexes = [
+            models.Index(fields=['client_type']),
+        ]
+
+    @property
+    def is_owner(self):
+        """Convenience method to check if client is an owner"""
+        return self.client_type == self.ClientType.OWNER
+
+    @property
+    def is_tenant(self):
+        """Convenience method to check if client is a tenant"""
+        return self.client_type == self.ClientType.TENANT
 
 
 class PropertyOwnership(models.Model):
     """
     Historical record of property ownership.
-    Tracks when properties change hands between clients.
+    Tracks when properties change hands between owners.
     """
     property = models.ForeignKey(
         Property,
@@ -50,7 +74,8 @@ class PropertyOwnership(models.Model):
         Client,
         on_delete=models.CASCADE,
         related_name='property_history',
-        help_text="The owner of the property"
+        help_text="The owner of the property",
+        limit_choices_to={'client_type': Client.ClientType.OWNER}  # Only allow owners
     )
     start_date = models.DateField(
         help_text="Date when ownership began"
@@ -67,4 +92,11 @@ class PropertyOwnership(models.Model):
     class Meta:
         verbose_name = "Property Ownership"
         verbose_name_plural = "Property Ownerships"
-        ordering = ['-start_date'] 
+        ordering = ['-start_date']
+
+    def clean(self):
+        """Ensure only owners can be assigned to PropertyOwnership"""
+        if self.owner and not self.owner.is_owner:
+            raise models.ValidationError({
+                'owner': 'Only property owners can be assigned to property ownerships.'
+            })

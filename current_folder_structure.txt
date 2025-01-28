@@ -1,0 +1,67 @@
+REAL_ESTATE_MANAGER/
+├── apps/
+│   ├── _pycache_/
+│   ├── core/
+│   │   ├── _pycache_/
+│   │   ├── migrations/
+│   │   ├── static/core/css/
+│   │   │   ├── base.css
+│   │   │   └── layout.css
+│   │   ├── templates/core/
+│   │   │   ├── base.html
+│   │   │   └── home.html
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── management_clients/
+│   │   ├── _pycache_/
+│   │   ├── migrations/
+│   │   ├── static/management_clients/css/
+│   │   │   └── clients.css
+│   │   ├── templates/management_clients/
+│   │   │   ├── client_confirm_delete.html
+│   │   │   ├── client_detail.html
+│   │   │   ├── client_form.html
+│   │   │   └── client_list.html
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── management_properties/
+│   │   ├── _pycache_/
+│   │   ├── migrations/
+│   │   ├── static/management_properties/css/
+│   │   │   └── properties.css
+│   │   ├── templates/management_properties/
+│   │   │   ├── property_confirm_delete.html
+│   │   │   ├── property_detail.html
+│   │   │   ├── property_form.html
+│   │   │   └── property_list.html
+│   │   ├── templatetags/
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── management_rentals/
+│   ├── users/
+│   └── __init__.py
+├── real_estate_config/
+├── venv/
+├── .env
+├── .gitignore
+├── db.sqlite3
+├── manage.py
+├── requirements.txt
+└── venv-instructions.txt
