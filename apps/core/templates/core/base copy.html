@@ -23,9 +23,6 @@
                 <li><a href="{% url 'clients:client_list' %}" class="nav-link {% if request.resolver_match.namespace == 'clients' %}active{% endif %}">
                     Propietarios
                 </a></li>
-                <li><a href="{% url 'rentals:list' %}" class="nav-link {% if 'rental_management' in request.resolver_match.view_name %}active{% endif %}">
-                    Gestión de Arriendos
-                </a></li>
                 {% if user.is_authenticated %}
                 <li class="user-menu">
                     <span>{{ user.username }}</span>
@@ -60,31 +57,6 @@
         <p>© {% now "Y" %} Gestor Inmobiliario</p>
     </footer>
 
-    <!-- Modal Background Overlay -->
-    <div id="modal-overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
-
     {% block extra_js %}{% endblock %}
-    
-    <!-- Base JavaScript for modals and messages -->
-    <script>
-        // Close message notifications after 5 seconds
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                const messages = document.querySelectorAll('.message');
-                messages.forEach(function(message) {
-                    message.remove();
-                });
-            }, 5000);
-        });
-
-        // Show/hide modal overlay
-        function showModalOverlay() {
-            document.getElementById('modal-overlay').classList.remove('hidden');
-        }
-
-        function hideModalOverlay() {
-            document.getElementById('modal-overlay').classList.add('hidden');
-        }
-    </script>
 </body>
 </html>

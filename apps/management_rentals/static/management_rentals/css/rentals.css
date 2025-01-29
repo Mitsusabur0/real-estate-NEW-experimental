@@ -1,0 +1,295 @@
+/* Rental Management List Page */
+.rental-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Filters */
+.filters {
+    margin-bottom: 2rem;
+}
+
+.filter-form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+
+.filter-select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.btn-filter {
+    padding: 0 2rem;
+    font-size: 1rem;
+    min-height: 2rem;
+}
+
+/* Rental Management Table */
+.rental-list {
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 2rem;
+}
+
+.rental-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rental-table th,
+.rental-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.rental-table th {
+    background-color: #f8f9fa;
+    font-weight: 500;
+    color: #666;
+}
+
+.rental-row {
+    transition: background-color 0.2s;
+}
+
+.rental-row:hover {
+    background-color: #f8f9fa;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-badge.pending {
+    background-color: #ffd6a5;
+    color: #94551f;
+}
+
+.status-badge.paid {
+    background-color: #a1e0b8;
+    color: #1e553a;
+}
+
+.status-badge.on-hold {
+    background-color: #e0df97;
+    color: #555510;
+}
+
+/* Amount Cells */
+.amount-cell {
+    font-family: monospace;
+    font-weight: 500;
+}
+
+/* Rental Actions */
+.rental-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+    font-weight: 500;
+    border: none;
+    background-color: #3498db;
+    color: whitesmoke;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn-create {
+    background-color: #3EB489;
+    padding: 0.5rem 1rem;
+}
+
+.btn-edit, .btn-view {
+    flex: 1;
+}
+
+.btn-back {
+    background-color: #95a5a6;
+}
+
+/* Form Styles */
+.rental-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-section {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-field label {
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-field textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.field-errors {
+    color: #e74c3c;
+    font-size: 0.9rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 5rem;
+    z-index: 50;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 1rem;
+}
+
+.modal-header {
+    margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Delete Confirmation */
+.delete-confirmation {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.delete-confirmation h1 {
+    color: #e74c3c;
+    margin-bottom: 2rem;
+}
+
+.confirmation-message {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .filter-form {
+        flex-direction: column;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-select {
+        width: 100%;
+    }
+    
+    .rental-table {
+        font-size: 0.9rem;
+    }
+    
+    .rental-actions {
+        flex-direction: column;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .confirmation-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
