@@ -1,0 +1,20 @@
+------------PROPERTIES APP------------
+
+
+
+------------RENTALS APP------------
+separate page for create tenant
+
+don't choose owner in new rental form, as the property already has an owner. The owner should be taken from the property itself
+
+rental detail view?
+
+
+
+
+------------CLIENTS APP------------
+in owner list view, only clients with type owner should appear
+
+fix error when trying to delete a current owner (attribute error?)*
+
+

@@ -18,7 +18,6 @@ class RentalManagementListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         
-        # Get month and year from GET parameters, default to current month
         month = self.request.GET.get('month')
         year = self.request.GET.get('year')
         
@@ -32,10 +31,8 @@ class RentalManagementListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        # Add month/year choices for filtering
         years = RentalManagement.objects.dates('month_year', 'year')
-        months = range(1, 13)  # 1 to 12
+        months = range(1, 13)
         
         context.update({
             'years': years,
@@ -49,7 +46,7 @@ class RentalManagementCreateView(LoginRequiredMixin, CreateView):
     model = RentalManagement
     form_class = RentalManagementForm
     template_name = 'management_rentals/rental_management_form.html'
-    success_url = reverse_lazy('rental_management_list')
+    success_url = reverse_lazy('rentals:list')  # Updated URL name
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,22 +57,22 @@ class RentalManagementUpdateView(LoginRequiredMixin, UpdateView):
     model = RentalManagement
     form_class = RentalManagementForm
     template_name = 'management_rentals/rental_management_form.html'
-    success_url = reverse_lazy('rental_management_list')
+    success_url = reverse_lazy('rentals:list')  # Updated URL name
 
 class RentalManagementDeleteView(LoginRequiredMixin, DeleteView):
     model = RentalManagement
     template_name = 'management_rentals/rental_management_confirm_delete.html'
-    success_url = reverse_lazy('rental_management_list')
+    success_url = reverse_lazy('rentals:list')  # Updated URL name
 
 class CreateTenantView(LoginRequiredMixin, FormView):
     form_class = CreateTenantForm
     template_name = 'management_rentals/tenant_form.html'
+    success_url = reverse_lazy('rentals:create')  # Updated URL name
 
     def form_valid(self, form):
         tenant = form.save()
         messages.success(self.request, 'Arrendatario creado exitosamente.')
         
-        # Return tenant info as JSON if it's an AJAX request
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             from django.http import JsonResponse
             return JsonResponse({
@@ -83,4 +80,4 @@ class CreateTenantView(LoginRequiredMixin, FormView):
                 'name': tenant.name
             })
             
-        return redirect('rental_management_create')
+        return redirect('rentals:create')  # Updated URL name

@@ -124,6 +124,7 @@
 .btn-create {
     background-color: #3EB489;
     padding: 0.5rem 1rem;
+    width: fit-content;
 }
 
 .btn-edit, .btn-view {
