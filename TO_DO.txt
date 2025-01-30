@@ -8,7 +8,7 @@ separate page for create tenant
 don't choose owner in new rental form, as the property already has an owner. The owner should be taken from the property itself
 
 rental detail view?
-
+money format with point to separate thousands
 
 
 

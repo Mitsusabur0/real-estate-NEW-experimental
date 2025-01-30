@@ -146,45 +146,29 @@
     </div>
 </div>
 
-
-{% endblock %}
-
 {% block extra_js %}
 <script>
     function showTenantModal() {
         document.getElementById('tenantModal').classList.remove('hidden');
-        document.getElementById('modal-overlay').classList.remove('hidden');
     }
 
     function hideTenantModal() {
         document.getElementById('tenantModal').classList.add('hidden');
-        document.getElementById('modal-overlay').classList.add('hidden');
     }
 
     // Handle tenant form submission via AJAX
-    document.getElementById('tenantForm').addEventListener('submit', async function(e) {
+    document.getElementById('tenantForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        e.stopPropagation();
         
-        const form = this;
-        
-        try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
-                },
-                credentials: 'same-origin'
-            });
-            
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+        fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
             }
-            
-            const data = await response.json();
-            
+        })
+        .then(response => response.json())
+        .then(data => {
             // Add new tenant to select options
             const tenantSelect = document.getElementById('id_tenant');
             const option = new Option(data.name, data.id);
@@ -193,13 +177,13 @@
             
             // Hide modal and reset form
             hideTenantModal();
-            form.reset();
-        } catch (error) {
+            this.reset();
+        })
+        .catch(error => {
             console.error('Error:', error);
             alert('Error al crear el arrendatario. Por favor intente nuevamente.');
-        }
-        
-        return false;
+        });
     });
 </script>
+{% endblock %}
 {% endblock %}

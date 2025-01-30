@@ -41,12 +41,28 @@ class ClientListView(LoginRequiredMixin, ListView):
     context_object_name = 'clients'
     paginate_by = 10
     
+    # def get_queryset(self):
+    #     queryset = super().get_queryset().annotate(
+    #         current_properties_count=Count('properties')
+    #     )        
+    #     status = self.request.GET.get('status')
+    #     if status == 'active':
+    #         queryset = queryset.filter(is_active=True)
+    #     elif status == 'inactive':
+    #         queryset = queryset.filter(is_active=False)
+            
+    #     search = self.request.GET.get('search')
+    #     if search:
+    #         queryset = queryset.filter(
+    #             Q(name__icontains=search) | 
+    #             Q(email__icontains=search)
+    #         )
+        
+    #     return queryset.order_by('-is_active', 'name')
     def get_queryset(self):
         queryset = super().get_queryset().annotate(
             current_properties_count=Count('properties')
-        )
-        
-        
+        ).filter(client_type=Client.ClientType.OWNER)  # Add this line to filter only owners
         
         status = self.request.GET.get('status')
         if status == 'active':

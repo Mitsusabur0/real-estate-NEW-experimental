@@ -67,9 +67,11 @@ class RentalManagementDeleteView(LoginRequiredMixin, DeleteView):
 class CreateTenantView(LoginRequiredMixin, FormView):
     form_class = CreateTenantForm
     template_name = 'management_rentals/tenant_form.html'
-    success_url = reverse_lazy('rentals:create')  # Updated URL name
+    success_url = reverse_lazy('rentals:create')
 
     def form_valid(self, form):
+        print("Form submission received")  # Debug line
+        print("Is AJAX?:", self.request.headers.get('x-requested-with') == 'XMLHttpRequest')  # Debug line
         tenant = form.save()
         messages.success(self.request, 'Arrendatario creado exitosamente.')
         
@@ -80,4 +82,4 @@ class CreateTenantView(LoginRequiredMixin, FormView):
                 'name': tenant.name
             })
             
-        return redirect('rentals:create')  # Updated URL name
+        return redirect('rentals:create')
