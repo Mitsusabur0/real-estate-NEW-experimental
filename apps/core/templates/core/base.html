@@ -24,7 +24,7 @@
                     Propietarios
                 </a></li>
                 <li><a href="{% url 'rentals:list' %}" class="nav-link {% if 'rental_management' in request.resolver_match.view_name %}active{% endif %}">
-                    Gestión de Arriendos
+                    Administraciones
                 </a></li>
                 {% if user.is_authenticated %}
                 <li class="user-menu">

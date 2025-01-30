@@ -1,6 +1,12 @@
 ------------PROPERTIES APP------------
 
+agregar un default en requisitos
 
+agregar orientación(norte, sur, etc) en info de propiedad
+
+agregar nro depto en info de propiedades ("Departamento nro")
+
+agregar un tipo oferta (arriendo temporal)
 
 ------------RENTALS APP------------
 separate page for create tenant
@@ -10,6 +16,7 @@ don't choose owner in new rental form, as the property already has an owner. The
 rental detail view?
 money format with point to separate thousands
 
+filtrar por propietario
 
 
 ------------CLIENTS APP------------
@@ -17,4 +24,6 @@ in owner list view, only clients with type owner should appear
 
 fix error when trying to delete a current owner (attribute error?)*
 
+
+otros
 
