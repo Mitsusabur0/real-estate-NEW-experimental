@@ -51,8 +51,8 @@
         <table class="rental-table">
             <thead>
                 <tr>
-                    <th>Propiedad</th>
                     <th>Propietario</th>
+                    <th>Propiedad</th>
                     <th>Arrendatario</th>
                     <th>Monto Arriendo</th>
                     <th>Estado Pago</th>
@@ -65,8 +65,8 @@
             <tbody>
                 {% for management in managements %}
                 <tr class="rental-row">
-                    <td>{{ management.rental_property.address }}</td>
                     <td>{{ management.owner.name }}</td>
+                    <td>{{ management.rental_property.address }}</td>
                     <td>{{ management.tenant.name }}</td>
                     <td class="amount-cell">{{ management.rent_amount|clp }}</td>
                     <td>

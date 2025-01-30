@@ -41,6 +41,12 @@ class OwnerForm(ClientForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, client_type=Client.ClientType.OWNER, **kwargs)
         self.fields['name'].widget.attrs['placeholder'] = 'Nombre completo del propietario'
+        self.fields['client_type'].initial = Client.ClientType.OWNER
+        self.fields['client_type'].widget = forms.HiddenInput()
+        # Add this to make sure the value is set even if not in form data
+        if not self.data.get('client_type'):
+            self.data = self.data.copy()
+            self.data['client_type'] = Client.ClientType.OWNER
 
 class TenantForm(ClientForm):
     def __init__(self, *args, **kwargs):

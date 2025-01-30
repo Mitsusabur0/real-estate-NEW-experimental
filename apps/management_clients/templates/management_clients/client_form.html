@@ -38,7 +38,7 @@
 
     <form method="post" class="client-form">
         {% csrf_token %}
-        
+        {% comment %} {{ form.as_p }} {% endcomment %}
         <div class="form-section">
             <h2>Información del Propietario</h2>
             <div class="form-grid">

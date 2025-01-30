@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
 from .models import Client
-from .forms import ClientForm
+from .forms import ClientForm, OwnerForm
 from django.db.models import Count, Q
 
 # class ClientListView(LoginRequiredMixin, ListView):
@@ -81,7 +81,7 @@ class ClientListView(LoginRequiredMixin, ListView):
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
-    form_class = ClientForm
+    form_class = OwnerForm
     template_name = 'management_clients/client_form.html'
     success_url = reverse_lazy('clients:client_list')
     
@@ -95,7 +95,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
-    form_class = ClientForm
+    form_class = OwnerForm
     template_name = 'management_clients/client_form.html'
     success_url = reverse_lazy('clients:client_list')
     
@@ -115,12 +115,12 @@ class ClientDeleteView(LoginRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add property count to context
-        context['property_count'] = self.object.property_set.count()
+        context['property_count'] = self.object.properties.count()
         return context
     
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.property_set.exists():
+        if self.object.properties.exists():
             messages.error(request, 
                 'No se puede eliminar el propietario porque tiene propiedades asociadas.')
             return redirect('clients:client_list')

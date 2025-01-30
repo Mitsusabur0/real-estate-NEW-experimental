@@ -2,6 +2,7 @@
 
 from django import forms
 from .models import Property
+from apps.management_clients.models import Client
 
 class PropertyForm(forms.ModelForm):
     class Meta:
@@ -27,8 +28,16 @@ class PropertyForm(forms.ModelForm):
             'common_expenses': 'Monthly maintenance fees, if applicable',
             'requirements': 'List any specific requirements for potential buyers/tenants',
             'floor_number': 'Only for apartments or offices',
-            'current_owner': 'Select the current owner of the property'  # Added help text
+            'current_owner': 'Select the current owner of the property'
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Filter current_owner choices to show only owners
+        self.fields['current_owner'].queryset = Client.objects.filter(
+            client_type=Client.ClientType.OWNER,
+            is_active=True  # Optionally show only active owners
+        )
 
     def clean(self):
         cleaned_data = super().clean()

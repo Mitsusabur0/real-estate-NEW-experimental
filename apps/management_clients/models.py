@@ -37,7 +37,8 @@ class Client(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} ({self.get_client_type_display()}) - {'Active' if self.is_active else 'Inactive'}"
+        display_type = 'dueño' if self.client_type == self.ClientType.OWNER else 'arrendatario'
+        return f"{self.name} ({display_type})"
 
     class Meta:
         ordering = ['name']
