@@ -43,7 +43,7 @@
                 <th>Email</th>
                 <th>Teléfono</th>
                 <th>Propiedades</th>
-                <th>Estado</th>
+                {% comment %} <th>Estado</th> {% endcomment %}
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -56,14 +56,16 @@
                 <td class="client-properties">
                     {{ client.current_properties_count }} propiedad{{ client.current_properties_count|pluralize:"es" }}
                 </td>
-                <td class="client-status">
+                {% comment %} <td class="client-status">
                     <span class="status-badge {% if client.is_active %}active{% else %}inactive{% endif %}">
                         {% if client.is_active %}Activo{% else %}Inactivo{% endif %}
                     </span>
-                </td>
-                <td class="client-actions">
-                    <a href="{% url 'clients:client_detail' client.id %}" class="btn btn-view">Ver</a>
-                    <a href="{% url 'clients:client_update' client.id %}" class="btn btn-edit">Editar</a>
+                </td> {% endcomment %}
+                <td>
+                    <div class="client-actions">
+                        <a href="{% url 'clients:client_detail' client.id %}" class="btn btn-view">Ver</a>
+                        <a href="{% url 'clients:client_update' client.id %}" class="btn btn-edit">Editar</a>
+                    </div>
                 </td>
             </tr>
             {% empty %}
