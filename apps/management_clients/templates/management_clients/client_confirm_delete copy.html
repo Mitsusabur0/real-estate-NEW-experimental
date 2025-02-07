@@ -1,0 +1,46 @@
+
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Eliminar Propietario{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_clients/css/clients.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="delete-confirmation">
+    <h1>Eliminar Propietario</h1>
+
+    <div class="confirmation-message">
+        <div class="client-info">
+            <h2>{{ object.name }}</h2>
+            <p>Email: {{ object.email }}</p>
+            <p>Teléfono: {{ object.phone }}</p>
+            <p>Estado: {% if object.is_active %}Activo{% else %}Inactivo{% endif %}</p>
+            
+            {% if property_count > 0 %}
+                <div class="warning">
+                    <p>⚠️ Este propietario tiene {{ property_count }} propiedad{{ property_count|pluralize:"es" }} asociada{{ property_count|pluralize:"s" }}.</p>
+                    <p>No se puede eliminar un propietario que tiene propiedades asociadas.</p>
+                </div>
+            {% else %}
+                <p>¿Está seguro que desea eliminar este propietario?</p>
+                <p class="warning">Esta acción no se puede deshacer.</p>
+            {% endif %}
+        </div>
+
+        <div class="confirmation-actions">
+            {% if property_count == 0 %}
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-delete">Confirmar Eliminación</button>
+                {% endif %}
+                <a href="{% url 'clients:client_list' %}" class="btn btn-cancel">Cancelar</a>
+            {% if property_count == 0 %}
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

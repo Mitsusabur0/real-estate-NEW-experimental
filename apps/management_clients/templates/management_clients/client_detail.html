@@ -8,37 +8,36 @@
 {% endblock extra_css %}
 
 {% block content %}
-<div class="detail-header">
-    <div class="detail-title">
+<div class="page-header">
+    <div class="page-header__title">
         <h1>{{ client.name }}</h1>
     </div>
-    <div class="detail-actions">
-        <a href="{% url 'clients:client_list' %}" class="btn btn-back">Volver</a>
-        <a href="{% url 'clients:client_update' client.id %}" class="btn btn-edit">Editar</a>
+    <div class="flex-gap-sm">
+        <a href="{% url 'clients:client_list' %}" class="btn">Volver</a>
+        <a href="{% url 'clients:client_update' client.id %}" class="btn btn--primary">Editar</a>
     </div>
 </div>
 
-
 <div class="client-detail">
-    <div class="detail-section">
-        <h2>Información del Propietario</h2>
+    <div class="content-section">
+        <h2 class="content-section__title">Información del Propietario</h2>
         <div class="info-grid">
             <div class="info-item">
-                <span class="label">Nombre</span>
-                <span class="value">{{ client.name }}</span>
+                <span class="info-item__label">Nombre</span>
+                <span class="info-item__value">{{ client.name }}</span>
             </div>
             <div class="info-item">
-                <span class="label">Email</span>
-                <span class="value">{{ client.email }}</span>
+                <span class="info-item__label">Email</span>
+                <span class="info-item__value">{{ client.email }}</span>
             </div>
             <div class="info-item">
-                <span class="label">Teléfono</span>
-                <span class="value">{{ client.phone }}</span>
+                <span class="info-item__label">Teléfono</span>
+                <span class="info-item__value">{{ client.phone }}</span>
             </div>
             <div class="info-item">
-                <span class="label">Estado</span>
-                <span class="value">
-                    <span class="status-badge {% if client.is_active %}active{% else %}inactive{% endif %}">
+                <span class="info-item__label">Estado</span>
+                <span class="info-item__value">
+                    <span class="status-badge">
                         {% if client.is_active %}Activo{% else %}Inactivo{% endif %}
                     </span>
                 </span>
@@ -46,27 +45,27 @@
         </div>
     </div>
 
-    <div class="detail-section">
-        <h2>Propiedades ({{ properties|length }})</h2>
+    <div class="content-section">
+        <h2 class="content-section__title">Propiedades ({{ properties|length }})</h2>
         {% if properties %}
-        <div class="properties-list">
-            <table class="properties-table">
+        <div class="table-container">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th>Dirección</th>
-                        <th>Tipo de Propiedad</th>
-                        <th>Tipo de Oferta</th>
-                        <th>Acciones</th>
+                        <th class="table__header">Dirección</th>
+                        <th class="table__header">Tipo de Propiedad</th>
+                        <th class="table__header">Tipo de Oferta</th>
+                        <th class="table__header">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for property in properties %}
-                    <tr class="property-row">
-                        <td>{{ property.address }}</td>
-                        <td>{{ property.get_property_type_display }}</td>
-                        <td>{{ property.get_offer_type_display }}</td>
-                        <td class="property-actions">
-                            <a href="{% url 'properties:property_detail' property.property_code %}" class="btn btn-view">Ver Propiedad</a>
+                    <tr class="table__row">
+                        <td class="table__cell">{{ property.address }}</td>
+                        <td class="table__cell">{{ property.get_property_type_display }}</td>
+                        <td class="table__cell">{{ property.get_offer_type_display }}</td>
+                        <td class="table__cell">
+                            <a href="{% url 'properties:property_detail' property.property_code %}" class="btn">Ver Propiedad</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -74,26 +73,27 @@
             </table>
         </div>
         {% else %}
-        <p class="no-properties">Este propietario no tiene propiedades registradas.</p>
+        <p class="text-center mb-lg">Este propietario no tiene propiedades registradas.</p>
         {% endif %}
     </div>
 
-    <div class="detail-section metadata">
-        <div class="metadata-item">
-            <span class="label">Fecha de Registro</span>
-            <span class="value">{{ client.created_at|date:"d/m/Y" }}</span>
-        </div>
-        <div class="metadata-item">
-            <span class="label">Última Actualización</span>
-            <span class="value">{{ client.updated_at|date:"d/m/Y" }}</span>
+    <div class="content-section">
+        <div class="grid">
+            <div class="info-item">
+                <span class="info-item__label">Fecha de Registro</span>
+                <span class="info-item__value">{{ client.created_at|date:"d/m/Y" }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-item__label">Última Actualización</span>
+                <span class="info-item__value">{{ client.updated_at|date:"d/m/Y" }}</span>
+            </div>
         </div>
     </div>
 </div>
 
-
 {% if not properties %}
-<div class="detail-actions">
-    <a href="{% url 'clients:client_delete' client.id %}" class="btn btn-delete">Eliminar Propietario</a>
+<div class="mt-lg">
+    <a href="{% url 'clients:client_delete' client.id %}" class="btn btn--danger btn--large">Eliminar Propietario</a>
 </div>
 {% endif %}
 {% endblock content %}

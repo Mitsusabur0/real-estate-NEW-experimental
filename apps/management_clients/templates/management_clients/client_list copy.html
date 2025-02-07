@@ -8,9 +8,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
+<div class="client-header">
     <h1>Propietarios</h1>
-    <a href="{% url 'clients:client_create' %}" class="btn btn--success btn--large">Nuevo Propietario</a>
+    <a href="{% url 'clients:client_create' %}" class="btn btn-create">Nuevo Propietario</a>
 </div>
 
 <div class="filters">
@@ -31,40 +31,46 @@
                    placeholder="Nombre o email...">
         </div>
         
-        <button type="submit" class="btn">Filtrar</button>
+        <button type="submit" class="btn btn-filter">Filtrar</button>
     </form>
 </div>
 
-<div class="table-container">
-    <table class="table">
+<div class="client-list">
+    <table class="client-table">
         <thead>
             <tr>
-                <th class="table__header">Nombre</th>
-                <th class="table__header">Email</th>
-                <th class="table__header">Teléfono</th>
-                <th class="table__header">Propiedades</th>
-                <th class="table__header">Acciones</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Propiedades</th>
+                {% comment %} <th>Estado</th> {% endcomment %}
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for client in clients %}
-            <tr class="table__row {% if not client.is_active %}table__row--inactive{% endif %}">
-                <td class="table__cell">{{ client.name }}</td>
-                <td class="table__cell">{{ client.email }}</td>
-                <td class="table__cell">{{ client.phone }}</td>
-                <td class="table__cell">
+            <tr class="client-row {% if not client.is_active %}inactive{% endif %}">
+                <td class="client-name">{{ client.name }}</td>
+                <td class="client-email">{{ client.email }}</td>
+                <td class="client-phone">{{ client.phone }}</td>
+                <td class="client-properties">
                     {{ client.current_properties_count }} propiedad{{ client.current_properties_count|pluralize:"es" }}
                 </td>
-                <td class="table__cell">
-                    <div class="flex-gap-sm">
-                        <a href="{% url 'clients:client_detail' client.id %}" class="btn">Ver</a>
-                        <a href="{% url 'clients:client_update' client.id %}" class="btn btn--primary">Editar</a>
+                {% comment %} <td class="client-status">
+                    <span class="status-badge {% if client.is_active %}active{% else %}inactive{% endif %}">
+                        {% if client.is_active %}Activo{% else %}Inactivo{% endif %}
+                    </span>
+                </td> {% endcomment %}
+                <td>
+                    <div class="client-actions">
+                        <a href="{% url 'clients:client_detail' client.id %}" class="btn btn-view">Ver</a>
+                        <a href="{% url 'clients:client_update' client.id %}" class="btn btn-edit">Editar</a>
                     </div>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5" class="table__cell text-center">
+                <td colspan="6" class="no-clients">
                     No hay propietarios que coincidan con los filtros seleccionados.
                 </td>
             </tr>
@@ -77,16 +83,16 @@
 <div class="pagination">
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" 
-       class="btn">&laquo; Anterior</a>
+       class="page-link">&laquo; Anterior</a>
     {% endif %}
     
-    <span class="text-center">
+    <span class="current-page">
         Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
     </span>
     
     {% if page_obj.has_next %}
     <a href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" 
-       class="btn">Siguiente &raquo;</a>
+       class="page-link">Siguiente &raquo;</a>
     {% endif %}
 </div>
 {% endif %}

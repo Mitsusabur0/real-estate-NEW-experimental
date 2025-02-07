@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
+<div class="form-header">
     <h1>
         {% if form.instance.pk %}
             Editar Propietario
@@ -24,7 +24,7 @@
     </h1>
 </div>
 
-<div class="form-container">
+<div class="client-form-container">
     {% if form.errors %}
     <div class="form-errors">
         <h3>Por favor corrija los siguientes errores:</h3>
@@ -36,56 +36,57 @@
     </div>
     {% endif %}
 
-    <form method="post">
+    <form method="post" class="client-form">
         {% csrf_token %}
-        <div class="content-section">
-            <h2 class="content-section__title">Información del Propietario</h2>
-            <div class="grid">
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <div class="form-section">
+            <h2>Información del Propietario</h2>
+            <div class="form-grid">
                 <div class="form-field">
-                    <label class="form-field__label" for="{{ form.name.id_for_label }}">Nombre</label>
+                    <label for="{{ form.name.id_for_label }}">Nombre</label>
                     {{ form.name }}
                     {% if form.name.errors %}
-                        <div class="form-field__error">{{ form.name.errors }}</div>
+                        <div class="field-errors">{{ form.name.errors }}</div>
                     {% endif %}
                 </div>
 
                 <div class="form-field">
-                    <label class="form-field__label" for="{{ form.email.id_for_label }}">Email</label>
+                    <label for="{{ form.email.id_for_label }}">Email</label>
                     {{ form.email }}
                     {% if form.email.errors %}
-                        <div class="form-field__error">{{ form.email.errors }}</div>
+                        <div class="field-errors">{{ form.email.errors }}</div>
                     {% endif %}
                 </div>
 
                 <div class="form-field">
-                    <label class="form-field__label" for="{{ form.phone.id_for_label }}">Teléfono</label>
+                    <label for="{{ form.phone.id_for_label }}">Teléfono</label>
                     {{ form.phone }}
                     {% if form.phone.errors %}
-                        <div class="form-field__error">{{ form.phone.errors }}</div>
+                        <div class="field-errors">{{ form.phone.errors }}</div>
                     {% endif %}
                 </div>
 
-                <div class="form-field">
-                    <label class="form-field__label">
+                <div class="form-field checkbox-container">
+                    <label class="checkbox-label">
                         {{ form.is_active }}
                         Estado Activo
                     </label>
                     {% if form.is_active.errors %}
-                        <div class="form-field__error">{{ form.is_active.errors }}</div>
+                        <div class="field-errors">{{ form.is_active.errors }}</div>
                     {% endif %}
                 </div>
             </div>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn--primary btn--large">
+            <button type="submit" class="btn btn-save">
                 {% if form.instance.pk %}
                     Guardar Cambios
                 {% else %}
                     Crear Propietario
                 {% endif %}
             </button>
-            <a href="{% url 'clients:client_list' %}" class="btn btn--large">Cancelar</a>
+            <a href="{% url 'clients:client_list' %}" class="btn btn-cancel">Cancelar</a>
         </div>
     </form>
 </div>
