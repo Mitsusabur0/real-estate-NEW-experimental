@@ -1,0 +1,72 @@
+@mixin button-base {
+    font-weight: 500;
+    border: none;
+    color: whitesmoke;
+    padding: 0.5rem 1rem;  // Unified padding
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block; // For consistent spacing
+    text-decoration: none; // Remove underlines from links
+  }
+  
+  @mixin button-color($color) {
+    background-color: $color;
+  }
+  
+  @mixin status-badge($color) {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: $font-size-small;
+      background-color: $color;
+  }
+  
+  @mixin section-header {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      th {
+          padding: 0.75rem 1rem;
+          text-align: left;
+          color: $text-color;
+      }
+  }
+  
+  @mixin responsive-table {
+      @media (max-width: $breakpoint-medium) {
+          display: block; // Stack table elements
+  
+          thead {
+            display: none; // Hide table headers
+          }
+  
+          tr {
+            margin-bottom: 1rem;
+            display: block;
+            border: 1px solid $border-color;
+          }
+  
+          td {
+            display: block;
+            text-align: right;
+            padding: 0.5rem;
+            border-bottom: 1px solid $border-color-light;
+            position: relative;  // For pseudo-element positioning
+            padding-left: 50%; // Make space for the "label"
+  
+            &:before { // Use pseudo-elements to display labels
+              content: attr(data-label); // Get label from data-label attribute
+              position: absolute;
+              left: 0;
+              width: 50%;
+              padding-left: 1rem;
+              font-weight: 500;
+              text-align: left;
+            }
+  
+              &:last-child{
+                  border-bottom: none;
+              }
+          }
+      }
+  }
+  
