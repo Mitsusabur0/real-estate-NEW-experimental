@@ -12,13 +12,14 @@
 {% block content %}
 <div class="form-header">
     <h1>{% if object %}Editar{% else %}Nueva{% endif %} Propiedad</h1>
+    {% comment %} <a href="{% url 'properties:property_list' %}" class="btn-back">Volver</a> {% endcomment %}
 </div>
 
 <form method="post" class="property-form">
     {% csrf_token %}
     <div class="form-actions">
-        <button type="submit" class="btn btn-save">Guardar</button>
-        <a href="{% url 'properties:property_list' %}" class="btn btn-cancel">Cancelar</a>
+        <button type="submit" class="btn-save">Guardar</button>
+        <a href="{% url 'properties:property_list' %}" class="btn-cancel">Cancelar</a>
     </div>
     
     {% if form.non_field_errors %}
@@ -196,8 +197,8 @@
     </div>
 
     <div class="form-actions">
-        <button type="submit" class="btn btn-save">Guardar</button>
-        <a href="{% url 'properties:property_list' %}" class="btn btn-cancel">Cancelar</a>
+        <button type="submit" class="btn-save">Guardar</button>
+        <a href="{% url 'properties:property_list' %}" class="btn-cancel">Cancelar</a>
     </div>
 </form>
 {% endblock %}

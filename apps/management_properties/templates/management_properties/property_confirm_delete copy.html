@@ -24,8 +24,8 @@
     <form method="post" class="delete-form">
         {% csrf_token %}
         <div class="form-actions">
-            <button type="submit" class="btn btn-delete">Confirmar Eliminación</button>
-            <a href="{% url 'properties:property_detail' object.property_code %}" class="btn btn-cancel">Cancelar</a>
+            <button type="submit" class="btn-delete">Confirmar Eliminación</button>
+            <a href="{% url 'properties:property_detail' object.property_code %}" class="btn-cancel">Cancelar</a>
         </div>
     </form>
 </div>

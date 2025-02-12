@@ -18,15 +18,17 @@
     </div>
 
     <div class="detail-actions">
-        <a href="{% url 'properties:property_list' %}" class="btn">Volver</a>
-        <a href="{% url 'properties:property_update' property.property_code %}" class="btn">Editar</a>
+        <a href="{% url 'properties:property_list' %}" class="btn btn-back">Volver</a>
+        <a href="{% url 'properties:property_update' property.property_code %}" class="btn btn-edit">Editar</a>
     </div>
 </div>
 
 <div class="property-detail">
-    <div class="detail-section">
+    <!-- Main information table-->
+     <div class="detail-section">
         <table class="detail-table">
             <tbody>
+                <!--Property information-->
                 <tr class="section-header">
                     <th colspan="2">Información de la propiedad</th>
                 </tr>
@@ -55,6 +57,7 @@
                     <td>{{ property.current_owner }}</td>
                 </tr>
 
+                <!--Financial information-->
                 <tr class="section-header">
                     <th colspan="2">Información financiera</th>
                 </tr>
@@ -69,6 +72,7 @@
                 </tr>
                 {% endif %}
 
+                <!--Physical characteristics-->
                 <tr class="section-header">
                     <th colspan="2">Características</th>
                 </tr>
@@ -111,32 +115,35 @@
                 </div>
             </div>
         </div>
-    </div>
+     </div>
      
-    <div class="detail-section pad">
+     <div class="detail-section pad">
         <h2>Descripción</h2>
         <p class="content-text">{{ property.property_description }}</p>
-    </div>
+     </div>
      
-    {% if property.amenities %}
-    <div class="detail-section pad">
+     {% if property.amenities %}
+     <div class="detail-section pad">
         <h2>Amenidades</h2>
         <p class="content-text">{{ property.amenities }}</p>
-    </div>
-    {% endif %}
+     </div>
+     {% endif %}
      
-    {% if property.requirements %}
-    <div class="detail-section pad">
+     {% if property.requirements %}
+     <div class="detail-section pad">
         <h2>Requisitos</h2>
         <p class="content-text">{{ property.requirements }}</p>
-    </div>
-    {% endif %}
+     </div>
+     {% endif %}
 
-    {% if property.comments %}
-    <div class="detail-section pad">
+     {% if property.comments %}
+     <div class="detail-section pad">
         <h2>Comentarios Internos</h2>
         <p class="content-text">{{ property.comments }}</p>
-    </div>
-    {% endif %}
+     </div>
+     {% endif %}
+
+
 </div>
+
 {% endblock content %}

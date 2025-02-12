@@ -52,7 +52,7 @@
             </select>
         </div>
         
-        <button type="submit" class="btn">Filtrar</button>
+        <button type="submit" class="btn btn-filter">Filtrar</button>
     </form>
 </div>
 
@@ -71,18 +71,18 @@
         <tbody>
             {% for property in properties %}
             <tr class="property-row {% if property.status == 'SLD' or property.status == 'RNT' %}inactive{% endif %}">
-                <td>{{ property.address }}</td>
-                <td>{{ property.get_offer_type_display }}</td>
-                <td>{{ property.get_property_type_display }}</td>
-                <td>${{ property.price|floatformat:0|clp }}</td>
-                <td>
+                <td class="property-address">{{ property.address }}</td>
+                <td class="property-offer">{{ property.get_offer_type_display }}</td>
+                <td class="property-type">{{ property.get_property_type_display }}</td>
+                <td class="property-price">${{ property.price|floatformat:0|clp }}</td>
+                <td class="property-status">
                     <span class="status-badge {{ property.status|lower }}">
                         {{ property.get_status_display }}
                     </span>
                 </td>
                 <td class="property-actions">
-                    <a href="{% url 'properties:property_detail' property.property_code %}" class="btn">Ver</a>
-                    <a href="{% url 'properties:property_update' property.property_code %}" class="btn">Editar</a>
+                    <a href="{% url 'properties:property_detail' property.property_code %}" class="btn btn-view">Ver</a>
+                    <a href="{% url 'properties:property_update' property.property_code %}" class="btn btn-edit">Editar</a>
                 </td>
             </tr>
             {% empty %}
