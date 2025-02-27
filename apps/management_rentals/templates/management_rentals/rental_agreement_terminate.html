@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Terminate Rental Agreement{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_rentals/css/rentals.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h4 class="mb-0">Terminate Rental Agreement</h4>
+                </div>
+                <div class="card-body">
+                    <h5>{{ rental_agreement.property.address }}</h5>
+                    <p>You are about to terminate the rental agreement between 
+                       <strong>{{ rental_agreement.owner.get_full_name }}</strong> (owner) and
+                       <strong>{{ rental_agreement.tenant.get_full_name }}</strong> (tenant).
+                    </p>
+                    
+                    <div class="alert alert-info mt-3">
+                        <p><strong>Note:</strong> Terminating a rental agreement will mark it as inactive and set an end date.
+                        Historical monthly rental records will be preserved for reporting.</p>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="id_termination_date">Termination Date:</label>
+                            <input type="date" name="termination_date" value="{{ form.termination_date.value|date:'Y-m-d'|default:today|date:'Y-m-d' }}" class="form-control" id="id_termination_date" required>
+                            <small class="form-text text-muted">When the rental agreement will end</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_reason">Reason:</label>
+                            <textarea name="reason" rows="3" class="form-control" id="id_reason">{{ form.reason.value|default:'' }}</textarea>
+                            <small class="form-text text-muted">Reason for termination</small>
+                        </div>
+                        
+                        <div class="form-group form-check">
+                            <input type="checkbox" name="delete_future_records" class="form-check-input" id="id_delete_future_records" {% if form.delete_future_records.value %}checked{% endif %}>
+                            <label class="form-check-label" for="id_delete_future_records">Delete future monthly rental records</label>
+                            <small class="form-text text-muted">Delete future monthly rental records</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-danger">Terminate Agreement</button>
+                    </form>
+                    
+                    <div class="mt-3">
+                        <a href="{% url 'management_rentals:rental_agreement_detail' rental_agreement.id %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

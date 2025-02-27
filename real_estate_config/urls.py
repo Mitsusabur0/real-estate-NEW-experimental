@@ -6,5 +6,5 @@ urlpatterns = [
     path('', include('apps.core.urls')),
     path('properties/', include('apps.management_properties.urls')),
     path('clients/', include('apps.management_clients.urls')),
-    path('rentals/', include('apps.management_rentals.urls', namespace='rentals')),
+    path('rentals/', include('apps.management_rentals.urls', namespace='management_rentals')),
 ]

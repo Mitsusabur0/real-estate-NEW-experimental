@@ -1,0 +1,116 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load rental_filters %}
+
+{% block title %}Rental Reports{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_rentals/css/rentals.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="report-header">
+        <h1>Rental Reports</h1>
+        <p class="lead">Financial and operational reports for your rental properties</p>
+    </div>
+    
+    <!-- Year filter -->
+    <div class="report-filter">
+        <form method="get" class="form-inline">
+            <div class="form-group mr-2">
+                <label for="year" class="mr-2">Year:</label>
+                <select name="year" id="year" class="form-control" onchange="this.form.submit()">
+                    {% for y in selected_year|add:"-3"|get_range:selected_year|add:"2" %}
+                    <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Annual summary -->
+    <div class="annual-summary">
+        <h3>Annual Summary for {{ selected_year }}</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body text-center">
+                        <h5>Total Rent</h5>
+                        <h2>{{ annual_stats.total_rent|currency }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body text-center">
+                        <h5>Total Commission</h5>
+                        <h2>{{ annual_stats.total_commission|currency }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body text-center">
+                        <h5>Total Transfers</h5>
+                        <h2>{{ annual_stats.total_transfer|currency }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Monthly breakdown -->
+    <div class="monthly-summary">
+        <h3>Monthly Breakdown</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Total Rent</th>
+                        <th>Commission</th>
+                        <th>Transfers</th>
+                        <th>Paid</th>
+                        <th>Pending</th>
+                        <th>Late</th>
+                        <th>Unpaid</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for month in monthly_stats %}
+                    <tr>
+                        <td>{{ month.month_name }}</td>
+                        <td>{{ month.total_rent|currency }}</td>
+                        <td>{{ month.total_commission|currency }}</td>
+                        <td>{{ month.total_transfer|currency }}</td>
+                        <td>{{ month.paid_count }}</td>
+                        <td>{{ month.pending_count }}</td>
+                        <td>{{ month.late_count }}</td>
+                        <td>{{ month.unpaid_count }}</td>
+                        <td>
+                            <a href="{% url 'management_rentals:dashboard' %}?year={{ selected_year }}&month={{ month.month }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Charts could be added here -->
+    
+    <div class="mt-4">
+        <a href="{% url 'management_rentals:dashboard' %}" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- This is where chart scripts would go if implemented -->
+{% endblock %}

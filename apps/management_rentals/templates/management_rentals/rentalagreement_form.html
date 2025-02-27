@@ -1,0 +1,99 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{% if form.instance.pk %}Edit{% else %}New{% endif %} Rental Agreement{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_rentals/css/rentals.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="form-section">
+                <h1>{% if form.instance.pk %}Edit{% else %}New{% endif %} Rental Agreement</h1>
+                <p class="lead">{% if form.instance.pk %}Update the details of an existing rental agreement{% else %}Create a new rental agreement{% endif %}</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id_property">Property:</label>
+                            <select name="property" class="form-control" id="id_property" required {% if form.instance.pk %}readonly{% endif %}>
+                                {% for property_option in form.property.field.queryset %}
+                                <option value="{{ property_option.id }}" {% if form.property.value == property_option.id|stringformat:"i" %}selected{% endif %}>
+                                    {{ property_option }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="id_is_active">Is Active:</label>
+                            <select name="is_active" class="form-control" id="id_is_active">
+                                <option value="True" {% if form.is_active.value %}selected{% endif %}>Yes</option>
+                                <option value="False" {% if not form.is_active.value %}selected{% endif %}>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id_owner">Owner:</label>
+                            <select name="owner" class="form-control" id="id_owner" required {% if form.instance.pk %}readonly{% endif %}>
+                                {% for owner_option in form.owner.field.queryset %}
+                                <option value="{{ owner_option.id }}" {% if form.owner.value == owner_option.id|stringformat:"i" %}selected{% endif %}>
+                                    {{ owner_option.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="id_tenant">Tenant:</label>
+                            <select name="tenant" class="form-control" id="id_tenant" required>
+                                {% for tenant_option in form.tenant.field.queryset %}
+                                <option value="{{ tenant_option.id }}" {% if form.tenant.value == tenant_option.id|stringformat:"i" %}selected{% endif %}>
+                                    {{ tenant_option.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id_rent_amount">Rent Amount:</label>
+                            <input type="number" name="rent_amount" value="{{ form.rent_amount.value|default:'' }}" class="form-control" id="id_rent_amount" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="id_commission_amount">Commission Amount:</label>
+                            <input type="number" name="commission_amount" value="{{ form.commission_amount.value|default:'' }}" class="form-control" id="id_commission_amount" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id_start_date">Start Date:</label>
+                            <input type="date" name="start_date" value="{{ form.start_date.value|date:'Y-m-d'|default:'' }}" class="form-control" id="id_start_date" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="id_end_date">End Date:</label>
+                            <input type="date" name="end_date" value="{{ form.end_date.value|date:'Y-m-d'|default:'' }}" class="form-control" id="id_end_date">
+                            <small class="form-text text-muted">Optional</small>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+                
+                <div class="mt-3">
+                    <a href="{% if form.instance.pk %}{% url 'management_rentals:rental_agreement_detail' form.instance.pk %}{% else %}{% url 'management_rentals:rental_agreement_list' %}{% endif %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

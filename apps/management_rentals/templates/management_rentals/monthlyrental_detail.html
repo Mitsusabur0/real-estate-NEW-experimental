@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load rental_filters %}
+
+{% block title %}Monthly Rental Details{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_rentals/css/rentals.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="agreement-header">
+        <h1>{{ monthly_rental.rental_agreement.property.address }}</h1>
+        <p class="lead">Monthly Rental for {{ monthly_rental.period_month|month_name }} {{ monthly_rental.period_year }}</p>
+    </div>
+    
+    <!-- Action buttons -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h4>
+                Rent Status: 
+                <span class="badge badge-{{ monthly_rental.rent_status|status_class }}">
+                    {{ monthly_rental.rent_status|title }}
+                </span>
+                |
+                Transfer Status:
+                <span class="badge badge-{{ monthly_rental.transfer_status|status_class }}">
+                    {{ monthly_rental.transfer_status|title }}
+                </span>
+            </h4>
+        </div>
+        <div class="col-md-6 text-right">
+            {% if monthly_rental|can_record_payment %}
+            <a href="{% url 'management_rentals:record_payment' monthly_rental.id %}" class="btn btn-success">
+                <i class="fas fa-money-bill"></i> Record Payment
+            </a>
+            {% endif %}
+            
+            {% if monthly_rental|can_record_transfer %}
+            <a href="{% url 'management_rentals:record_transfer' monthly_rental.id %}" class="btn btn-info">
+                <i class="fas fa-exchange-alt"></i> Record Transfer
+            </a>
+            {% endif %}
+            
+            <a href="{% url 'management_rentals:rental_agreement_detail' monthly_rental.rental_agreement.id %}" class="btn btn-outline-secondary">
+                <i class="fas fa-file-contract"></i> View Agreement
+            </a>
+        </div>
+    </div>
+    
+    <!-- Monthly rental details -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="agreement-details">
+                <h4>Rental Details</h4>
+                <ul class="agreement-info-list">
+                    <li><strong>Property:</strong> {{ monthly_rental.rental_agreement.property.address }}</li>
+                    <li><strong>Owner:</strong> {{ monthly_rental.rental_agreement.owner.get_full_name }}</li>
+                    <li><strong>Tenant:</strong> {{ monthly_rental.rental_agreement.tenant.get_full_name }}</li>
+                    <li><strong>Period:</strong> {{ monthly_rental.period_month|month_name }} {{ monthly_rental.period_year }}</li>
+                    <li><strong>Created:</strong> {{ monthly_rental.created_at }}</li>
+                    <li><strong>Last Updated:</strong> {{ monthly_rental.updated_at }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="agreement-details">
+                <h4>Payment Details</h4>
+                <ul class="agreement-info-list">
+                    <li><strong>Rent Amount:</strong> {{ monthly_rental.rental_agreement.rent_amount|currency }}</li>
+                    <li><strong>Rent Status:</strong> {{ monthly_rental.rent_status|title }}</li>
+                    <li><strong>Payment Date:</strong> {{ monthly_rental.payment_date|default:"Not yet paid" }}</li>
+                    <li><strong>Commission:</strong> {{ monthly_rental.rental_agreement.commission_amount|currency }}</li>
+                    <li><strong>Transfer Amount:</strong> {{ monthly_rental.transfer_amount|currency }}</li>
+                    <li><strong>Transfer Status:</strong> {{ monthly_rental.transfer_status|title }}</li>
+                    <li><strong>Transfer Date:</strong> {{ monthly_rental.transfer_date|default:"Not yet transferred" }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    {% if monthly_rental.notes %}
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Notes</h5>
+                </div>
+                <div class="card-body">
+                    <pre class="mb-0">{{ monthly_rental.notes }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="row mt-4">
+        <div class="col">
+            <a href="{% url 'management_rentals:dashboard' %}?year={{ monthly_rental.period_year }}&month={{ monthly_rental.period_month }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Delete Rental Agreement{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_rentals/css/rentals.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Confirm Deletion</h4>
+                </div>
+                <div class="card-body">
+                    <h5>Are you sure you want to delete this rental agreement?</h5>
+                    
+                    <div class="alert alert-warning mt-3">
+                        <p><strong>Warning:</strong> This action will permanently delete the rental agreement and all associated monthly rentals. This cannot be undone.</p>
+                    </div>
+                    
+                    <dl class="row mt-4">
+                        <dt class="col-sm-4">Property:</dt>
+                        <dd class="col-sm-8">{{ object.property.address }}</dd>
+                        
+                        <dt class="col-sm-4">Owner:</dt>
+                        <dd class="col-sm-8">{{ object.owner.get_full_name }}</dd>
+                        
+                        <dt class="col-sm-4">Tenant:</dt>
+                        <dd class="col-sm-8">{{ object.tenant.get_full_name }}</dd>
+                        
+                        <dt class="col-sm-4">Start Date:</dt>
+                        <dd class="col-sm-8">{{ object.start_date }}</dd>
+                        
+                        <dt class="col-sm-4">Status:</dt>
+                        <dd class="col-sm-8">
+                            {% if object.is_active %}
+                            <span class="badge badge-success">Active</span>
+                            {% else %}
+                            <span class="badge badge-secondary">Inactive</span>
+                            {% endif %}
+                        </dd>
+                    </dl>
+                    
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete Rental Agreement
+                            </button>
+                            <a href="{% url 'management_rentals:rental_agreement_detail' object.id %}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

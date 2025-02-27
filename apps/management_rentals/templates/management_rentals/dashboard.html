@@ -1,0 +1,217 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load rental_filters %}
+
+{% block title %}Rental Management Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_rentals/css/rentals.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h1 class="mb-3">Rental Management Dashboard</h1>
+        <p class="lead">Manage your rental properties and track payments</p>
+    </div>
+    
+    <!-- Month filter form -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="month-filter-form">
+                <h5>Period: {{ selected_month|month_name }} {{ selected_year }}</h5>
+                <form method="get" class="form-inline">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <label for="id_year">Year:</label>
+                            <select name="year" id="id_year" class="form-control mr-2">
+                                {% for y in selected_year|add:"-3"|get_range:selected_year|add:"2" %}
+                                <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <label for="id_month">Month:</label>
+                            <select name="month" id="id_month" class="form-control mr-2">
+                                <option value="1" {% if selected_month == 1 %}selected{% endif %}>January</option>
+                                <option value="2" {% if selected_month == 2 %}selected{% endif %}>February</option>
+                                <option value="3" {% if selected_month == 3 %}selected{% endif %}>March</option>
+                                <option value="4" {% if selected_month == 4 %}selected{% endif %}>April</option>
+                                <option value="5" {% if selected_month == 5 %}selected{% endif %}>May</option>
+                                <option value="6" {% if selected_month == 6 %}selected{% endif %}>June</option>
+                                <option value="7" {% if selected_month == 7 %}selected{% endif %}>July</option>
+                                <option value="8" {% if selected_month == 8 %}selected{% endif %}>August</option>
+                                <option value="9" {% if selected_month == 9 %}selected{% endif %}>September</option>
+                                <option value="10" {% if selected_month == 10 %}selected{% endif %}>October</option>
+                                <option value="11" {% if selected_month == 11 %}selected{% endif %}>November</option>
+                                <option value="12" {% if selected_month == 12 %}selected{% endif %}>December</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-info">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% if needs_initialization %}
+            <div class="alert alert-warning">
+                <p>This month hasn't been fully initialized yet!</p>
+                <form method="post" action="{% url 'management_rentals:initialize_month' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="year" value="{{ selected_year }}">
+                    <input type="hidden" name="month" value="{{ selected_month }}">
+                    <button type="submit" class="btn btn-primary initialize-month-btn">Initialize Month</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Stats summary -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card stats-card bg-primary text-white">
+                <div class="card-body text-center">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h5>Total Rent</h5>
+                    <h3>{{ stats.total_rent|currency }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card bg-success text-white">
+                <div class="card-body text-center">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h5>Commission</h5>
+                    <h3>{{ stats.total_commission|currency }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card bg-info text-white">
+                <div class="card-body text-center">
+                    <div class="stat-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h5>Transfer to Owners</h5>
+                    <h3>{{ stats.total_transfer|currency }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card bg-warning text-white">
+                <div class="card-body text-center">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h5>Pending</h5>
+                    <h3>{{ stats.pending_payments }} payments</h3>
+                    <p>{{ stats.pending_transfers }} transfers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Buttons -->
+    <div class="mb-4">
+        <a href="{% url 'management_rentals:rental_agreement_list' %}" class="btn btn-outline-primary mr-2">
+            <i class="fas fa-list"></i> All Rental Agreements
+        </a>
+        <a href="{% url 'management_rentals:rental_agreement_create' %}" class="btn btn-outline-success mr-2">
+            <i class="fas fa-plus"></i> New Rental Agreement
+        </a>
+        <a href="{% url 'management_rentals:report' %}" class="btn btn-outline-info">
+            <i class="fas fa-chart-bar"></i> Reports
+        </a>
+    </div>
+    
+    <!-- Monthly rentals -->
+    <h2 class="mb-3">Monthly Rentals for {{ selected_month|month_name }} {{ selected_year }}</h2>
+    
+    {% if error_loading_data %}
+    <div class="alert alert-danger">
+        <p><strong>Error:</strong> There was a problem loading the rental data.</p>
+        <p>This might be because the database tables haven't been fully set up yet.</p>
+        <p>Please ensure all migrations have been applied with: <code>python manage.py migrate</code></p>
+    </div>
+    {% elif monthly_rentals %}
+    <div class="row">
+        {% for rental in monthly_rentals %}
+        <div class="col-md-6">
+            <div class="card rental-card">
+                <div class="card-header">
+                    <span class="badge badge-{{ rental.rent_status|status_class }} float-right">
+                        Rent: {{ rental.rent_status|title }}
+                    </span>
+                    <span class="badge badge-{{ rental.transfer_status|status_class }} float-right mr-2">
+                        Transfer: {{ rental.transfer_status|title }}
+                    </span>
+                    Rental #{{ rental.id }}
+                </div>
+                <div class="card-body">
+                    <h5 class="address">{{ rental.rental_agreement.property.address }}</h5>
+                    <div class="client-info">
+                        <strong>Owner:</strong> {{ rental.rental_agreement.owner.get_full_name }}
+                    </div>
+                    <div class="client-info">
+                        <strong>Tenant:</strong> {{ rental.rental_agreement.tenant.get_full_name }}
+                    </div>
+                    <div class="client-info">
+                        <strong>Rent:</strong> {{ rental.rental_agreement.rent_amount|currency }} | 
+                        <strong>Commission:</strong> {{ rental.rental_agreement.commission_amount|currency }}
+                    </div>
+                    <div class="client-info">
+                        <strong>Transfer Amount:</strong> {{ rental.transfer_amount|currency }}
+                    </div>
+                    
+                    {% if rental.payment_date %}
+                    <div class="client-info">
+                        <strong>Payment Date:</strong> {{ rental.payment_date }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if rental.transfer_date %}
+                    <div class="client-info">
+                        <strong>Transfer Date:</strong> {{ rental.transfer_date }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="action-buttons">
+                        <a href="{% url 'management_rentals:monthly_rental_detail' rental.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye"></i> View Details
+                        </a>
+                        
+                        {% if rental|can_record_payment %}
+                        <a href="{% url 'management_rentals:record_payment' rental.id %}" class="btn btn-sm btn-outline-success">
+                            <i class="fas fa-money-bill"></i> Record Payment
+                        </a>
+                        {% endif %}
+                        
+                        {% if rental|can_record_transfer %}
+                        <a href="{% url 'management_rentals:record_transfer' rental.id %}" class="btn btn-sm btn-outline-info">
+                            <i class="fas fa-exchange-alt"></i> Record Transfer
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <p>No monthly rentals found for this period.</p>
+        {% if needs_initialization %}
+        <p>Please initialize the month to create rental records.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+</div>
+{% endblock %}

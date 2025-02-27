@@ -7,6 +7,7 @@
     <title>{% block title %}Gestor Inmobiliario{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/layout.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -23,7 +24,7 @@
                 <li><a href="{% url 'clients:client_list' %}" class="nav-link {% if request.resolver_match.namespace == 'clients' %}active{% endif %}">
                     Propietarios
                 </a></li>
-                <li><a href="{% url 'rentals:list' %}" class="nav-link {% if 'rental_management' in request.resolver_match.view_name %}active{% endif %}">
+                <li><a href="{% url 'management_rentals:dashboard' %}" class="nav-link {% if request.resolver_match.namespace == 'management_rentals' %}active{% endif %}">
                     Administraciones
                 </a></li>
                 {% if user.is_authenticated %}

@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load rental_filters %}
+
+{% block title %}Rental Agreements{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'management_rentals/css/rentals.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h1>Rental Agreements</h1>
+        <p class="lead">Manage your property rental agreements</p>
+    </div>
+    
+    <!-- Filter and search -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <form method="get" class="form-inline">
+                <div class="input-group mr-2">
+                    <input type="text" name="search" class="form-control" placeholder="Search by property or tenant..." value="{{ search }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <select name="status" class="form-control" onchange="this.form.submit()">
+                        <option value="">All Agreements</option>
+                        <option value="active" {% if status == 'active' %}selected{% endif %}>Active Only</option>
+                        <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Inactive Only</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4 text-right">
+            <a href="{% url 'management_rentals:rental_agreement_create' %}" class="btn btn-success">
+                <i class="fas fa-plus"></i> New Rental Agreement
+            </a>
+        </div>
+    </div>
+    
+    <!-- Rental agreements list -->
+    {% if rental_agreements %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Owner</th>
+                    <th>Tenant</th>
+                    <th>Rent Amount</th>
+                    <th>Commission</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agreement in rental_agreements %}
+                <tr>
+                    <td>{{ agreement.property.address }}</td>
+                    <td>{{ agreement.owner.get_full_name }}</td>
+                    <td>{{ agreement.tenant.get_full_name }}</td>
+                    <td>{{ agreement.rent_amount|currency }}</td>
+                    <td>{{ agreement.commission_amount|currency }}</td>
+                    <td>
+                        {% if agreement.is_active %}
+                        <span class="badge badge-success">Active</span>
+                        {% else %}
+                        <span class="badge badge-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ agreement.start_date }}</td>
+                    <td>{{ agreement.end_date|default:"-" }}</td>
+                    <td>
+                        <a href="{% url 'management_rentals:rental_agreement_detail' agreement.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{% url 'management_rentals:rental_agreement_update' agreement.id %}" class="btn btn-sm btn-outline-info">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        {% if agreement.is_active %}
+                        <a href="{% url 'management_rentals:rental_agreement_terminate' agreement.id %}" class="btn btn-sm btn-outline-warning">
+                            <i class="fas fa-times"></i>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <p>No rental agreements found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
